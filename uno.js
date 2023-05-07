@@ -39,6 +39,13 @@ const deck = {
         if (this.cards.length === 0) return true;
         else return false;
     },
+    removeCard: function() {
+        return this.cards.pop();
+    },
+}
+const discard = {
+    cards: [],
+    topCard: this.cards[this.cards.length - 1],
 }
 const user = {
     hand: [],
