@@ -66,3 +66,20 @@ const cpu3 = {
     hand: [],
     cardCount: this.hand.length,
 }
+const createCardFaceUp = function(card) {
+    let isWild = false;
+    let isPlus4 = false;
+    if (card.number === 'wild') isWild = true;
+    if(card.number == 'plus4') isPlus4 = true;
+    let newCard = document.createElement('div');
+    newCard.className = `card ${card.color}`;
+    let oval = document.createElement('div');
+    oval.className = 'oval';
+    if(isPlus4) oval.className = 'oval rainbow';
+    let img = document.createElement('img');
+    img.src = `icons/${card.number}_${card.color}.png`;
+    if (isWild) img.setAttribute('width', '40px');
+    newCard.appendChild(oval);
+    newCard.appendChild(img);
+    return newCard;
+}
