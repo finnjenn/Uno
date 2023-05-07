@@ -40,3 +40,22 @@ const deck = {
         else return false;
     },
 }
+const user = {
+    hand: [],
+    handCount: this.userHand.length,
+}
+const cpu1 = {
+    nickname: '',
+    hand: [],
+    cardCount: this.hand.length,
+}
+const cpu2 = {
+    nickname: '',
+    hand: [],
+    cardCount: this.hand.length,
+}
+const cpu3 = {
+    nickname: '',
+    hand: [],
+    cardCount: this.hand.length,
+}
