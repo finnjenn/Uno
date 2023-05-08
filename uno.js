@@ -44,6 +44,7 @@ const deck = {
         {number:'plus4', color:'black'},{number:'plus4', color:'black'},{number:'plus4', color:'black'},{number:'plus4', color:'black'},
     ],
     shuffle: function() {
+        console.log('Shuffling Cards')
         this.cards.sort(() => Math.random() - 0.5);
     },
     isEmpty: function() {
@@ -51,6 +52,7 @@ const deck = {
         else return false;
     },
     removeCard: function() {
+        console.log('Popping card from deck array')
         return this.cards.pop();
     },
 }
@@ -61,21 +63,25 @@ const discard = {
 const user = {
     hand: [],
     handCount: this.userHand.length,
+    cardBoxElement: document.getElementById('userCardBox'),
 }
 const cpu1 = {
     identifier: 'cpu1',
+    cardBoxElement: document.getElementById('cpu1'),
     nickname: '',
     hand: [],
     cardCount: this.hand.length,
 }
 const cpu2 = {
     identifier: 'cpu2',
+    cardBoxElement: document.getElementById('cpu2'),
     nickname: '',
     hand: [],
     cardCount: this.hand.length,
 }
 const cpu3 = {
     identifier: 'cpu3',
+    cardBoxElement: document.getElementById('cpu3'),
     nickname: '',
     hand: [],
     cardCount: this.hand.length,
@@ -97,3 +103,7 @@ const createCardFaceUp = function(card) {
     newCard.appendChild(img);
     return newCard;
 }
+cpuNames.shuffle();
+cpu1.nickname = cpuNames.removeName();
+cpu2.nickname = cpuNames.removeName();
+cpu3.nickname = cpuNames.removeName();
