@@ -1,3 +1,14 @@
+const cpuNames = {
+    names: ['Elon Musk', 'Jeff Bezos', 'Joe Biden', 'Ur Mom', 'Your Firstborn', 'Garfield', 'Derek Zoolander', 'Oprah Winfrey', 'Thanks Obama', 'Light Yagami', 'Ash Ketchum', 'Pikachu', 'Katy Perry', 'Zendaya', 'Ice Cube', 'Eminem'],
+    shuffle: function() {
+        console.log('Shuffling cpu names');
+        this.names.sort(() => Math.random() - 0.5);
+    },
+    removeName: function() {
+        console.log('Popping name from names array');
+        return this.names.pop();
+    }
+}
 const deck = {
     cards: [
         {number:0, color:'red'},{number:1, color:'red'},{number:1, color:'red'},{number:2, color:'red'},
@@ -52,16 +63,19 @@ const user = {
     handCount: this.userHand.length,
 }
 const cpu1 = {
+    identifier: 'cpu1',
     nickname: '',
     hand: [],
     cardCount: this.hand.length,
 }
 const cpu2 = {
+    identifier: 'cpu2',
     nickname: '',
     hand: [],
     cardCount: this.hand.length,
 }
 const cpu3 = {
+    identifier: 'cpu3',
     nickname: '',
     hand: [],
     cardCount: this.hand.length,
