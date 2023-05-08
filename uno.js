@@ -1,5 +1,5 @@
 const cpuNames = {
-    names: ['Elon Musk', 'Jeff Bezos', 'Joe Biden', 'Ur Mom', 'Your Firstborn', 'Garfield', 'Derek Zoolander', 'Oprah Winfrey', 'Thanks Obama', 'Light Yagami', 'Ash Ketchum', 'Pikachu', 'Katy Perry', 'Zendaya', 'Ice Cube', 'Eminem', 'Pedro Pascal', 'Baby Yoda', 'Vladimir Putin', 'Gwyneth Paltrow', 'Gwen Stefani', 'Gwendolyn Christie', 'Jenna Ortega', 'Scott Pilgrim', 'Aubrey Plaza', 'Mario Mario', 'Luigi Mario', 'Monkey Luffy', 'Son Goku', 'Gon Freecss', 'Killua Zoldyk', 'Roronoa Zoro', 'Orlando Bloom'],
+    names: ['Elon Musk', 'Jeff Bezos', 'Joe Biden', 'Ur Mom', 'Your Firstborn', 'Garfield', 'Derek Zoolander', 'Oprah Winfrey', 'Thanks Obama', 'Light Yagami', 'Ash Ketchum', 'Pikachu', 'Katy Perry', 'Zendaya', 'Ice Cube', 'Eminem', 'Pedro Pascal', 'Baby Yoda', 'Vladimir Putin', 'Gwyneth Paltrow', 'Gwen Stefani', 'Gwendolyn Christie', 'Jenna Ortega', 'Scott Pilgrim', 'Aubrey Plaza', 'Mario Mario', 'Luigi Mario', 'Monkey Luffy', 'Son Goku', 'Gon Freecss', 'Killua Zoldyk', 'Roronoa Zoro', 'Orlando Bloom', 'Nick Cannon', 'Kanye West'],
     shuffle: function() {
         console.log('Shuffling cpu names');
         this.names.sort(() => Math.random() - 0.5);
