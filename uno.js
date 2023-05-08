@@ -58,11 +58,11 @@ const deck = {
 }
 const discard = {
     cards: [],
-    topCard: this.cards[this.cards.length - 1],
+    // topCard: this.cards[this.cards.length - 1],
 }
 const user = {
     hand: [],
-    handCount: this.userHand.length,
+    // handCount: this.hand.length,
     cardBoxElement: document.getElementById('userCardBox'),
 }
 const cpu1 = {
@@ -70,21 +70,21 @@ const cpu1 = {
     cardBoxElement: document.getElementById('cpu1'),
     nickname: '',
     hand: [],
-    cardCount: this.hand.length,
+    // cardCount: this.hand.length,
 }
 const cpu2 = {
     identifier: 'cpu2',
     cardBoxElement: document.getElementById('cpu2'),
     nickname: '',
     hand: [],
-    cardCount: this.hand.length,
+    // cardCount: this.hand.length,
 }
 const cpu3 = {
     identifier: 'cpu3',
     cardBoxElement: document.getElementById('cpu3'),
     nickname: '',
     hand: [],
-    cardCount: this.hand.length,
+    // cardCount: this.hand.length,
 }
 const createCardFaceUp = function(card) {
     let isWild = false;
