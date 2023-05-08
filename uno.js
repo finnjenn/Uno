@@ -92,7 +92,7 @@ const createCardFaceUp = function(card) {
     if (card.number === 'wild') isWild = true;
     if(card.number == 'plus4') isPlus4 = true;
     let newCard = document.createElement('div');
-    newCard.className = `card ${card.color}`;
+    newCard.className = `cardFaceUp ${card.color}`;
     let oval = document.createElement('div');
     oval.className = 'oval';
     if(isPlus4) oval.className = 'oval rainbow';
@@ -103,7 +103,18 @@ const createCardFaceUp = function(card) {
     newCard.appendChild(img);
     return newCard;
 }
+deck.shuffle();
 cpuNames.shuffle();
 cpu1.nickname = cpuNames.removeName();
 cpu2.nickname = cpuNames.removeName();
 cpu3.nickname = cpuNames.removeName();
+console.log(cpu1.nickname);
+console.log(cpu2.nickname);
+console.log(cpu3.nickname);
+user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
