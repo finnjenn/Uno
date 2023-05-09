@@ -5,8 +5,9 @@ const cpuNames = {
         this.names.sort(() => Math.random() - 0.5);
     },
     removeName: function() {
-        console.log('Popping name from names array');
-        return this.names.pop();
+        const removed = this.names.pop();
+        console.log(`Popping ${removed} from names array`);
+        return removed;
     }
 }
 const deck = {
@@ -52,8 +53,9 @@ const deck = {
         else return false;
     },
     removeCard: function() {
-        console.log('Popping card from deck array')
-        return this.cards.pop();
+        const removed = this.cards.pop();
+        console.log(`Popping ${removed.number} ${removed.color} from deck array`)
+        return removed;
     },
 }
 const discard = {
