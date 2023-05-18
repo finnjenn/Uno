@@ -174,9 +174,11 @@ const deck = {
     console.log(`Popping ${removed.number} ${removed.color} from deck array`);
     return removed;
   },
+  deckElement: document.getElementById("deck"),
 };
 const discard = {
   cards: [],
+  discardElement: document.getElementById("discard"),
   // topCard: this.cards[this.cards.length - 1],
 };
 const user = {
@@ -270,3 +272,5 @@ user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
 user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
 user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
 user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+discard.cards.push(deck.removeCard());
+discard.discardElement.appendChild(createCardFaceUp(discard.cards[0]));
