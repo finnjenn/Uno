@@ -179,6 +179,24 @@ const deck = {
 const discard = {
   cards: [],
   discardElement: document.getElementById("discard"),
+  updateTopCard: function () {
+    console.log("Changing top card");
+    currentTopCardElement = document.querySelector("#discard .cardFaceUp");
+    newTopCard = this.cards[this.cards.length - 1];
+    newTopCardOval = document.querySelector("#discard .cardFaceUp .oval");
+    if (newTopCard.number == "plus4") {
+      newTopCardOval.className = "oval rainbow";
+    } else {
+      newTopCardOval.className = "oval white";
+    }
+    newTopCardImg = document.querySelector("#discard .cardFaceUp img");
+    if (newTopCard.number == "wild") {
+      newTopCardImg.setAttribute("width", "40px");
+    }
+    console.log(newTopCard);
+    currentTopCardElement.classList = `cardFaceUp ${newTopCard.color}`;
+    newTopCardImg.src = `icons/${newTopCard.number}_${newTopCard.color}.png`;
+  },
   // topCard: this.cards[this.cards.length - 1],
 };
 const user = {
@@ -274,3 +292,6 @@ user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
 user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
 discard.cards.push(deck.removeCard());
 discard.discardElement.appendChild(createCardFaceUp(discard.cards[0]));
+console.log(discard.cards[0]);
+discard.cards.push(deck.removeCard());
+discard.updateTopCard();

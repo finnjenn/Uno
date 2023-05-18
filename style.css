@@ -103,6 +103,9 @@ body {
 .black {
   background-color: black;
 }
+.white {
+  background-color: white;
+}
 .rainbow {
   background: linear-gradient(
     to right,
