@@ -239,79 +239,71 @@ const createCardFaceUp = function (card) {
   newCard.appendChild(img);
   return newCard;
 };
-function removeSelfOnClick(type, selector, callback, options) {
-  document.addEventListener(
-    type,
-    (e) => {
-      if (e.target.matches(selector)) {
-        // e.stopPropagation();
-        let imgSrc = e.target.children[1].getAttribute("src"); // icons/0_red.png
-        let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
-        let cardProps = cardInfo.split("_"); // [0, red]
-        removedCardObj = { number: cardProps[0], color: cardProps[1] }; // {number: 0, color: red}
-        console.log(removedCardObj);
-        //Removes card from user hand that matches card element removed
-        user.hand = user.hand.filter(
-          (obj) =>
-            obj.number != removedCardObj.number ||
-            obj.color != removedCardObj.color
-        );
-        console.log(user.hand);
-        e.target.remove();
-      }
-      callback(e);
-    },
-    options
-  );
-}
-function removeSelfAndParentOnClick(type, selector, callback, options) {
-  document.addEventListener(
-    type,
-    (e) => {
-      if (e.target.matches(selector)) {
-        let imgSrc;
-        const clickedElement = e.target;
-        if (clickedElement.classList.contains("oval")) {
-          imgSrc = clickedElement.nextSibling.getAttribute("src");
-        } else {
-          imgSrc = e.target.getAttribute("src");
-        }
-        let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
-        let cardProps = cardInfo.split("_"); // [0, red]
-        removedCardObj = { number: cardProps[0], color: cardProps[1] }; // {number: 0, color: red}
-        console.log(removedCardObj);
-        //Removes card from user hand that matches card element removed
-        user.hand = user.hand.filter(
-          (obj) =>
-            obj.number != removedCardObj.number ||
-            obj.color != removedCardObj.color
-        );
-        const parentElement = clickedElement.parentNode;
-        clickedElement.remove(); // Remove the clicked element from the DOM
-        parentElement.remove();
-      }
-      callback(e);
-    },
-    options
-  );
-}
-removeSelfOnClick("click", "#userCardBox .cardFaceUp", () => {
-  console.log("Clicked Button");
-  discard.cards.push(removedCardObj);
-  console.log(discard.cards);
-  discard.updateTopCard();
+// Move the event listener code outside of the functions
+
+// Event listener for removing a card when clicked
+document.addEventListener("click", (e) => {
+  if (e.target.matches("#userCardBox .cardFaceUp")) {
+    let imgSrc = e.target.children[1].getAttribute("src");
+    let cardInfo = imgSrc.slice(6, imgSrc.indexOf("."));
+    let cardProps = cardInfo.split("_");
+    removedCardObj = { number: cardProps[0], color: cardProps[1] };
+    console.log(removedCardObj);
+    user.hand = user.hand.filter(
+      (obj) =>
+        obj.number != removedCardObj.number || obj.color != removedCardObj.color
+    );
+    console.log(user.hand);
+    e.target.remove();
+    console.log("Clicked User Card");
+    discard.cards.push(removedCardObj);
+    console.log(discard.cards);
+    discard.updateTopCard();
+  }
 });
-removeSelfAndParentOnClick("click", "#userCardBox .cardFaceUp .oval", () => {
-  console.log("Clicked Button");
-  discard.cards.push(removedCardObj);
-  console.log(discard.cards);
-  discard.updateTopCard();
+
+// Event listener for removing a card when oval is clicked
+document.addEventListener("click", (e) => {
+  if (e.target.matches("#userCardBox .cardFaceUp .oval")) {
+    let imgSrc = e.target.nextSibling.getAttribute("src");
+    let cardInfo = imgSrc.slice(6, imgSrc.indexOf("."));
+    let cardProps = cardInfo.split("_");
+    removedCardObj = { number: cardProps[0], color: cardProps[1] };
+    console.log(removedCardObj);
+    user.hand = user.hand.filter(
+      (obj) =>
+        obj.number != removedCardObj.number || obj.color != removedCardObj.color
+    );
+    const parentElement = e.target.parentNode;
+    e.target.remove();
+    parentElement.remove();
+    console.log("Clicked Oval on User Card");
+    discard.cards.push(removedCardObj);
+    console.log(discard.cards);
+    discard.updateTopCard();
+  }
 });
-removeSelfAndParentOnClick("click", "#userCardBox .cardFaceUp img", () => {
-  console.log("Clicked Button");
-  discard.cards.push(removedCardObj);
-  console.log(discard.cards);
-  discard.updateTopCard();
+
+// Event listener for removing a card when image is clicked
+document.addEventListener("click", (e) => {
+  if (e.target.matches("#userCardBox .cardFaceUp img")) {
+    let imgSrc = e.target.getAttribute("src");
+    let cardInfo = imgSrc.slice(6, imgSrc.indexOf("."));
+    let cardProps = cardInfo.split("_");
+    removedCardObj = { number: cardProps[0], color: cardProps[1] };
+    console.log(removedCardObj);
+    user.hand = user.hand.filter(
+      (obj) =>
+        obj.number != removedCardObj.number || obj.color != removedCardObj.color
+    );
+    const parentElement = e.target.parentNode;
+    e.target.remove();
+    parentElement.remove();
+    console.log("Clicked Image on User Card");
+    discard.cards.push(removedCardObj);
+    console.log(discard.cards);
+    discard.updateTopCard();
+  }
 });
 //Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile
 deck.shuffle();
