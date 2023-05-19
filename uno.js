@@ -10,7 +10,6 @@ const cpuNames = {
     "Garfield",
     "Derek Zoolander",
     "Oprah Winfrey",
-    "Thanks Obama",
     "Light Yagami",
     "Ash Ketchum",
     "Pikachu",
@@ -208,18 +207,24 @@ const cpu1 = {
   identifier: "cpu1",
   cardBoxElement: document.getElementById("cpu1"),
   nickname: "",
+  nicknameElement: document.querySelector("#cpu1 .nickname"),
+  countElement: document.querySelector("#cpu1 .count"),
   hand: [],
 };
 const cpu2 = {
   identifier: "cpu2",
   cardBoxElement: document.getElementById("cpu2"),
   nickname: "",
+  nicknameElement: document.querySelector("#cpu2 .nickname"),
+  countElement: document.querySelector("#cpu2 .count"),
   hand: [],
 };
 const cpu3 = {
   identifier: "cpu3",
   cardBoxElement: document.getElementById("cpu3"),
   nickname: "",
+  nicknameElement: document.querySelector("#cpu3 .nickname"),
+  countElement: document.querySelector("#cpu3 .count"),
   hand: [],
 };
 const createCardFaceUp = function (card) {
@@ -322,8 +327,6 @@ for (let i = 0; i < NUM_OF_STARTING_CARDS; i++) {
   cpu2.hand.push(deck.removeCard());
   cpu3.hand.push(deck.removeCard());
 }
-discard.discardElement.style.pointerEvents = "none";
-discard.discardElement.onclick = null;
 discard.cards.push(deck.removeCard());
 discard.discardElement.appendChild(createCardFaceUp(discard.cards[0]));
 // discard.cards.push(deck.removeCard());
