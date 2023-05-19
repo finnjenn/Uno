@@ -1,3 +1,5 @@
+const NUM_OF_STARTING_CARDS = 7;
+let removedCardObj = null;
 const cpuNames = {
   names: [
     "Elon Musk",
@@ -183,25 +185,23 @@ const discard = {
     console.log("Changing top card");
     currentTopCardElement = document.querySelector("#discard .cardFaceUp");
     newTopCard = this.cards[this.cards.length - 1];
-    newTopCardOval = document.querySelector("#discard .cardFaceUp .oval");
-    if (newTopCard.number == "plus4") {
-      newTopCardOval.className = "oval rainbow";
-    } else {
-      newTopCardOval.className = "oval white";
-    }
-    newTopCardImg = document.querySelector("#discard .cardFaceUp img");
-    if (newTopCard.number == "wild") {
-      newTopCardImg.setAttribute("width", "40px");
-    }
-    console.log(newTopCard);
     currentTopCardElement.classList = `cardFaceUp ${newTopCard.color}`;
-    newTopCardImg.src = `icons/${newTopCard.number}_${newTopCard.color}.png`;
+    currentTopCardOval = document.querySelector("#discard .cardFaceUp .oval");
+    if (newTopCard.number == "plus4") {
+      currentTopCardOval.className = "oval rainbow";
+    } else {
+      currentTopCardOval.className = "oval white";
+    }
+    currentTopCardImg = document.querySelector("#discard .cardFaceUp img");
+    if (newTopCard.number == "wild") {
+      currentTopCardImg.setAttribute("width", "40px");
+    }
+    currentTopCardImg.src = `icons/${newTopCard.number}_${newTopCard.color}.png`;
+    console.log(newTopCard);
   },
-  // topCard: this.cards[this.cards.length - 1],
 };
 const user = {
   hand: [],
-  // handCount: this.hand.length,
   cardBoxElement: document.getElementById("userCardBox"),
 };
 const cpu1 = {
@@ -209,21 +209,18 @@ const cpu1 = {
   cardBoxElement: document.getElementById("cpu1"),
   nickname: "",
   hand: [],
-  // cardCount: this.hand.length,
 };
 const cpu2 = {
   identifier: "cpu2",
   cardBoxElement: document.getElementById("cpu2"),
   nickname: "",
   hand: [],
-  // cardCount: this.hand.length,
 };
 const cpu3 = {
   identifier: "cpu3",
   cardBoxElement: document.getElementById("cpu3"),
   nickname: "",
   hand: [],
-  // cardCount: this.hand.length,
 };
 const createCardFaceUp = function (card) {
   let isWild = false;
@@ -242,39 +239,81 @@ const createCardFaceUp = function (card) {
   newCard.appendChild(img);
   return newCard;
 };
-function addGlobalEventListener(type, selector, callback, options) {
+function removeSelfOnClick(type, selector, callback, options) {
   document.addEventListener(
     type,
     (e) => {
-      if (e.target.matches(selector)) callback(e);
+      if (e.target.matches(selector)) {
+        // e.stopPropagation();
+        let imgSrc = e.target.children[1].getAttribute("src"); // icons/0_red.png
+        let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
+        let cardProps = cardInfo.split("_"); // [0, red]
+        removedCardObj = { number: cardProps[0], color: cardProps[1] }; // {number: 0, color: red}
+        console.log(removedCardObj);
+        //Removes card from user hand that matches card element removed
+        user.hand = user.hand.filter(
+          (obj) =>
+            obj.number != removedCardObj.number ||
+            obj.color != removedCardObj.color
+        );
+        console.log(user.hand);
+        e.target.remove();
+      }
+      callback(e);
     },
     options
   );
 }
-addGlobalEventListener(
-  "click",
-  "#userCardBox .cardFaceUp",
-  () => {
-    console.log("Clicked Button");
-  },
-  { capture: true }
-);
-addGlobalEventListener(
-  "click",
-  "#userCardBox .cardFaceUp .oval",
-  () => {
-    console.log("Clicked Button");
-  },
-  { capture: true }
-);
-addGlobalEventListener(
-  "click",
-  "#userCardBox .cardFaceUp img",
-  () => {
-    console.log("Clicked Button");
-  },
-  { capture: true }
-);
+function removeSelfAndParentOnClick(type, selector, callback, options) {
+  document.addEventListener(
+    type,
+    (e) => {
+      if (e.target.matches(selector)) {
+        let imgSrc;
+        const clickedElement = e.target;
+        if (clickedElement.classList.contains("oval")) {
+          imgSrc = clickedElement.nextSibling.getAttribute("src");
+        } else {
+          imgSrc = e.target.getAttribute("src");
+        }
+        let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
+        let cardProps = cardInfo.split("_"); // [0, red]
+        removedCardObj = { number: cardProps[0], color: cardProps[1] }; // {number: 0, color: red}
+        console.log(removedCardObj);
+        //Removes card from user hand that matches card element removed
+        user.hand = user.hand.filter(
+          (obj) =>
+            obj.number != removedCardObj.number ||
+            obj.color != removedCardObj.color
+        );
+        const parentElement = clickedElement.parentNode;
+        clickedElement.remove(); // Remove the clicked element from the DOM
+        parentElement.remove();
+      }
+      callback(e);
+    },
+    options
+  );
+}
+removeSelfOnClick("click", "#userCardBox .cardFaceUp", () => {
+  console.log("Clicked Button");
+  discard.cards.push(removedCardObj);
+  console.log(discard.cards);
+  discard.updateTopCard();
+});
+removeSelfAndParentOnClick("click", "#userCardBox .cardFaceUp .oval", () => {
+  console.log("Clicked Button");
+  discard.cards.push(removedCardObj);
+  console.log(discard.cards);
+  discard.updateTopCard();
+});
+removeSelfAndParentOnClick("click", "#userCardBox .cardFaceUp img", () => {
+  console.log("Clicked Button");
+  discard.cards.push(removedCardObj);
+  console.log(discard.cards);
+  discard.updateTopCard();
+});
+//Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile
 deck.shuffle();
 cpuNames.shuffle();
 cpu1.nickname = cpuNames.removeName();
@@ -283,15 +322,17 @@ cpu3.nickname = cpuNames.removeName();
 console.log(cpu1.nickname);
 console.log(cpu2.nickname);
 console.log(cpu3.nickname);
-user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
-user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
-user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
-user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
-user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
-user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
-user.cardBoxElement.appendChild(createCardFaceUp(deck.removeCard()));
+for (let i = 0; i < NUM_OF_STARTING_CARDS; i++) {
+  user.hand.push(deck.removeCard());
+  let userCard = createCardFaceUp(user.hand[i]);
+  user.cardBoxElement.appendChild(userCard);
+  cpu1.hand.push(deck.removeCard());
+  cpu2.hand.push(deck.removeCard());
+  cpu3.hand.push(deck.removeCard());
+}
+discard.discardElement.style.pointerEvents = "none";
+discard.discardElement.onclick = null;
 discard.cards.push(deck.removeCard());
 discard.discardElement.appendChild(createCardFaceUp(discard.cards[0]));
-console.log(discard.cards[0]);
-discard.cards.push(deck.removeCard());
-discard.updateTopCard();
+// discard.cards.push(deck.removeCard());
+// discard.updateTopCard();
