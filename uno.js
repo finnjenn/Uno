@@ -305,6 +305,11 @@ document.addEventListener("click", (e) => {
     discard.updateTopCard();
   }
 });
+const randomColor = function () {
+  let colorArray = ["red", "blue", "green", "yellow"];
+  let rand = Math.floor(Math.random() * colorArray.length);
+  return colorArray[rand];
+};
 //Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile
 deck.shuffle();
 cpuNames.shuffle();
