@@ -20,9 +20,7 @@ const cpuNames = {
     "Pedro Pascal",
     "Baby Yoda",
     "Vladimir Putin",
-    "Gwyneth Paltrow",
     "Gwen Stefani",
-    "Gwendolyn Christie",
     "Jenna Ortega",
     "Scott Pilgrim",
     "Aubrey Plaza",
@@ -244,8 +242,6 @@ const createCardFaceUp = function (card) {
   newCard.appendChild(img);
   return newCard;
 };
-// Move the event listener code outside of the functions
-
 // Event listener for removing a card when clicked
 document.addEventListener("click", (e) => {
   if (e.target.matches("#userCardBox .cardFaceUp")) {
@@ -266,7 +262,6 @@ document.addEventListener("click", (e) => {
     discard.updateTopCard();
   }
 });
-
 // Event listener for removing a card when oval is clicked
 document.addEventListener("click", (e) => {
   if (e.target.matches("#userCardBox .cardFaceUp .oval")) {
@@ -288,7 +283,6 @@ document.addEventListener("click", (e) => {
     discard.updateTopCard();
   }
 });
-
 // Event listener for removing a card when image is clicked
 document.addEventListener("click", (e) => {
   if (e.target.matches("#userCardBox .cardFaceUp img")) {
@@ -316,6 +310,9 @@ cpuNames.shuffle();
 cpu1.nickname = cpuNames.removeName();
 cpu2.nickname = cpuNames.removeName();
 cpu3.nickname = cpuNames.removeName();
+cpu1.nicknameElement.innerHTML = cpu1.nickname;
+cpu2.nicknameElement.innerHTML = cpu2.nickname;
+cpu3.nicknameElement.innerHTML = cpu3.nickname;
 console.log(cpu1.nickname);
 console.log(cpu2.nickname);
 console.log(cpu3.nickname);
