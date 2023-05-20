@@ -1,4 +1,5 @@
 const NUM_OF_STARTING_CARDS = 7;
+let cpuTurn = false;
 let removedCardObj = null;
 const cpuNames = {
   names: [
@@ -204,7 +205,6 @@ const user = {
 const cpu1 = {
   identifier: "cpu1",
   cardBoxElement: document.getElementById("cpu1"),
-  nickname: "",
   nicknameElement: document.querySelector("#cpu1 .nickname"),
   countElement: document.querySelector("#cpu1 .count"),
   hand: [],
@@ -212,7 +212,6 @@ const cpu1 = {
 const cpu2 = {
   identifier: "cpu2",
   cardBoxElement: document.getElementById("cpu2"),
-  nickname: "",
   nicknameElement: document.querySelector("#cpu2 .nickname"),
   countElement: document.querySelector("#cpu2 .count"),
   hand: [],
@@ -220,7 +219,6 @@ const cpu2 = {
 const cpu3 = {
   identifier: "cpu3",
   cardBoxElement: document.getElementById("cpu3"),
-  nickname: "",
   nicknameElement: document.querySelector("#cpu3 .nickname"),
   countElement: document.querySelector("#cpu3 .count"),
   hand: [],
@@ -244,11 +242,12 @@ const createCardFaceUp = function (card) {
 };
 // Event listener for removing a card when clicked
 document.addEventListener("click", (e) => {
+  if (cpuTurn) return;
   if (e.target.matches("#userCardBox .cardFaceUp")) {
-    let imgSrc = e.target.children[1].getAttribute("src");
-    let cardInfo = imgSrc.slice(6, imgSrc.indexOf("."));
-    let cardProps = cardInfo.split("_");
-    removedCardObj = { number: cardProps[0], color: cardProps[1] };
+    let imgSrc = e.target.children[1].getAttribute("src"); // icons/0_red.png
+    let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
+    let cardProps = cardInfo.split("_"); // [0, red]
+    removedCardObj = { number: cardProps[0], color: cardProps[1] }; //
     console.log(removedCardObj);
     user.hand = user.hand.filter(
       (obj) =>
@@ -264,10 +263,11 @@ document.addEventListener("click", (e) => {
 });
 // Event listener for removing a card when oval is clicked
 document.addEventListener("click", (e) => {
+  if (cpuTurn) return;
   if (e.target.matches("#userCardBox .cardFaceUp .oval")) {
-    let imgSrc = e.target.nextSibling.getAttribute("src");
-    let cardInfo = imgSrc.slice(6, imgSrc.indexOf("."));
-    let cardProps = cardInfo.split("_");
+    let imgSrc = e.target.nextSibling.getAttribute("src"); // icons/0_red.png
+    let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
+    let cardProps = cardInfo.split("_"); // [0, red]
     removedCardObj = { number: cardProps[0], color: cardProps[1] };
     console.log(removedCardObj);
     user.hand = user.hand.filter(
@@ -285,10 +285,11 @@ document.addEventListener("click", (e) => {
 });
 // Event listener for removing a card when image is clicked
 document.addEventListener("click", (e) => {
+  if (cpuTurn) return;
   if (e.target.matches("#userCardBox .cardFaceUp img")) {
-    let imgSrc = e.target.getAttribute("src");
-    let cardInfo = imgSrc.slice(6, imgSrc.indexOf("."));
-    let cardProps = cardInfo.split("_");
+    let imgSrc = e.target.getAttribute("src"); // icons/0_red.png
+    let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
+    let cardProps = cardInfo.split("_"); // [0, red]
     removedCardObj = { number: cardProps[0], color: cardProps[1] };
     console.log(removedCardObj);
     user.hand = user.hand.filter(
@@ -307,15 +308,9 @@ document.addEventListener("click", (e) => {
 //Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile
 deck.shuffle();
 cpuNames.shuffle();
-cpu1.nickname = cpuNames.removeName();
-cpu2.nickname = cpuNames.removeName();
-cpu3.nickname = cpuNames.removeName();
-cpu1.nicknameElement.innerHTML = cpu1.nickname;
-cpu2.nicknameElement.innerHTML = cpu2.nickname;
-cpu3.nicknameElement.innerHTML = cpu3.nickname;
-console.log(cpu1.nickname);
-console.log(cpu2.nickname);
-console.log(cpu3.nickname);
+cpu1.nicknameElement.innerHTML = cpuNames.removeName();
+cpu2.nicknameElement.innerHTML = cpuNames.removeName();
+cpu3.nicknameElement.innerHTML = cpuNames.removeName();
 for (let i = 0; i < NUM_OF_STARTING_CARDS; i++) {
   user.hand.push(deck.removeCard());
   let userCard = createCardFaceUp(user.hand[i]);
