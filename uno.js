@@ -254,7 +254,6 @@ document.addEventListener("click", (e) => {
   ) {
     let isAMatch = false;
     let imgSrc = "";
-    let parentElement;
     if (e.target.matches("#userCardBox .cardFaceUp")) {
       console.log("Clicked User Card");
       imgSrc = e.target.children[1].getAttribute("src"); // icons/0_red.png
@@ -262,12 +261,10 @@ document.addEventListener("click", (e) => {
     if (e.target.matches("#userCardBox .cardFaceUp .oval")) {
       console.log("Clicked oval in user card");
       imgSrc = e.target.nextSibling.getAttribute("src"); // icons/0_red.png
-      parentElement = e.target.parentNode;
     }
     if (e.target.matches("#userCardBox .cardFaceUp img")) {
       console.log("Clicked image in user card");
       imgSrc = e.target.getAttribute("src"); // icons/0_red.png
-      parentElement = e.target.parentNode;
     }
     let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
     let cardProps = cardInfo.split("_"); // [0, red]
@@ -282,8 +279,12 @@ document.addEventListener("click", (e) => {
       console.log("Card picked does not match");
       return;
     }
+    if (
+      e.target.matches("#userCardBox .cardFaceUp .oval") ||
+      e.target.matches("#userCardBox .cardFaceUp img")
+    )
+      e.target.parentNode.remove();
     e.target.remove();
-    parentElement.remove();
     removedCardObj = { number: cardProps[0], color: cardProps[1] };
     console.log("Card Object being removed from user hand", removedCardObj);
     user.hand = user.hand.filter(

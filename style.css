@@ -112,6 +112,16 @@ body {
   /* margin-left: 0; */
   position: absolute;
 }
+.modal-content {
+  margin-top: 50%;
+}
+#wildCardBox {
+  display: flex;
+  justify-content: space-evenly;
+}
+#wildCardBox .cardFaceUp {
+  margin: 0;
+}
 .red {
   background-color: #d72600;
 }
