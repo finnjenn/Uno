@@ -197,6 +197,13 @@ const discard = {
     currentTopCardImg.src = `icons/${newTopCard.number}_${newTopCard.color}.png`;
     console.log("New top card object", newTopCard);
   },
+  processTopCard: function () {
+    if (this.cards[this.cards.length - 1].number == "reverse") {
+      console.log("Reverse card has been played. Changing direction of play.");
+      if (isClockwise) isClockwise = false;
+      else isClockwise = true;
+    }
+  },
 };
 const user = {
   hand: [],
@@ -246,7 +253,9 @@ document.addEventListener("click", (e) => {
     let cardProps = cardInfo.split("_"); // [0, red]
     if (
       cardProps[0] == discard.cards[discard.cards.length - 1].number ||
-      cardProps[1] == discard.cards[discard.cards.length - 1].color
+      cardProps[1] == discard.cards[discard.cards.length - 1].color ||
+      cardProps[0] == "wild" ||
+      cardProps[0] == "plus4"
     )
       isAMatch = true;
     if (!isAMatch) {
@@ -265,6 +274,7 @@ document.addEventListener("click", (e) => {
     discard.cards.push(removedCardObj);
     console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
+    discard.processTopCard();
   }
 });
 // Event listener for removing a card when oval is clicked
@@ -277,7 +287,9 @@ document.addEventListener("click", (e) => {
     let cardProps = cardInfo.split("_"); // [0, red]
     if (
       cardProps[0] == discard.cards[discard.cards.length - 1].number ||
-      cardProps[1] == discard.cards[discard.cards.length - 1].color
+      cardProps[1] == discard.cards[discard.cards.length - 1].color ||
+      cardProps[0] == "wild" ||
+      cardProps[0] == "plus4"
     )
       isAMatch = true;
     if (!isAMatch) {
@@ -297,6 +309,7 @@ document.addEventListener("click", (e) => {
     discard.cards.push(removedCardObj);
     console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
+    discard.processTopCard();
   }
 });
 // Event listener for removing a card when image is clicked
@@ -331,6 +344,7 @@ document.addEventListener("click", (e) => {
     discard.cards.push(removedCardObj);
     console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
+    discard.processTopCard();
   }
 });
 const randomColor = function () {
