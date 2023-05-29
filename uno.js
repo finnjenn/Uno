@@ -10,6 +10,7 @@ const cpuNames = {
     "Ur Mom",
     "Garfield",
     "Derek Zoolander",
+    "Ariana Grande",
     "Oprah Winfrey",
     "Light Yagami",
     "Ash Ketchum",
@@ -243,12 +244,31 @@ const createCardFaceUp = function (card) {
   newCard.appendChild(img);
   return newCard;
 };
-// Event listener for removing a card when clicked
+// Event listener for removing card when clicked
 document.addEventListener("click", (e) => {
   if (isCpuTurn) return;
-  if (e.target.matches("#userCardBox .cardFaceUp")) {
+  if (
+    e.target.matches("#userCardBox .cardFaceUp") ||
+    e.target.matches("#userCardBox .cardFaceUp .oval") ||
+    e.target.matches("#userCardBox .cardFaceUp img")
+  ) {
     let isAMatch = false;
-    let imgSrc = e.target.children[1].getAttribute("src"); // icons/0_red.png
+    let imgSrc = "";
+    let parentElement;
+    if (e.target.matches("#userCardBox .cardFaceUp")) {
+      console.log("Clicked User Card");
+      imgSrc = e.target.children[1].getAttribute("src"); // icons/0_red.png
+    }
+    if (e.target.matches("#userCardBox .cardFaceUp .oval")) {
+      console.log("Clicked oval in user card");
+      imgSrc = e.target.nextSibling.getAttribute("src"); // icons/0_red.png
+      parentElement = e.target.parentNode;
+    }
+    if (e.target.matches("#userCardBox .cardFaceUp img")) {
+      console.log("Clicked image in user card");
+      imgSrc = e.target.getAttribute("src"); // icons/0_red.png
+      parentElement = e.target.parentNode;
+    }
     let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
     let cardProps = cardInfo.split("_"); // [0, red]
     if (
@@ -262,14 +282,15 @@ document.addEventListener("click", (e) => {
       console.log("Card picked does not match");
       return;
     }
-    removedCardObj = { number: cardProps[0], color: cardProps[1] }; //
+    e.target.remove();
+    parentElement.remove();
+    removedCardObj = { number: cardProps[0], color: cardProps[1] };
     console.log("Card Object being removed from user hand", removedCardObj);
     user.hand = user.hand.filter(
       (obj) =>
         obj.number != removedCardObj.number || obj.color != removedCardObj.color
     );
     console.log("User hand", user.hand);
-    e.target.remove();
     console.log("Clicked User Card");
     discard.cards.push(removedCardObj);
     console.log("Cards in discard", discard.cards);
@@ -277,97 +298,33 @@ document.addEventListener("click", (e) => {
     discard.processTopCard();
   }
 });
-// Event listener for removing a card when oval is clicked
-document.addEventListener("click", (e) => {
-  if (isCpuTurn) return;
-  if (e.target.matches("#userCardBox .cardFaceUp .oval")) {
-    let isAMatch = false;
-    let imgSrc = e.target.nextSibling.getAttribute("src"); // icons/0_red.png
-    let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
-    let cardProps = cardInfo.split("_"); // [0, red]
-    if (
-      cardProps[0] == discard.cards[discard.cards.length - 1].number ||
-      cardProps[1] == discard.cards[discard.cards.length - 1].color ||
-      cardProps[0] == "wild" ||
-      cardProps[0] == "plus4"
-    )
-      isAMatch = true;
-    if (!isAMatch) {
-      console.log("Card picked does not match");
-      return;
-    }
-    removedCardObj = { number: cardProps[0], color: cardProps[1] };
-    console.log("Card Object being removed from user hand", removedCardObj);
-    user.hand = user.hand.filter(
-      (obj) =>
-        obj.number != removedCardObj.number || obj.color != removedCardObj.color
-    );
-    const parentElement = e.target.parentNode;
-    e.target.remove();
-    parentElement.remove();
-    console.log("Clicked Oval on User Card");
-    discard.cards.push(removedCardObj);
-    console.log("Cards in discard", discard.cards);
-    discard.updateTopCard();
-    discard.processTopCard();
-  }
-});
-// Event listener for removing a card when image is clicked
-document.addEventListener("click", (e) => {
-  if (isCpuTurn) return;
-  if (e.target.matches("#userCardBox .cardFaceUp img")) {
-    let isAMatch = false;
-    let imgSrc = e.target.getAttribute("src"); // icons/0_red.png
-    let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
-    let cardProps = cardInfo.split("_"); // [0, red]
-    if (
-      cardProps[0] == discard.cards[discard.cards.length - 1].number ||
-      cardProps[1] == discard.cards[discard.cards.length - 1].color ||
-      cardProps[0] == "wild" ||
-      cardProps[0] == "plus4"
-    )
-      isAMatch = true;
-    if (!isAMatch) {
-      console.log("Card picked does not match");
-      return;
-    }
-    removedCardObj = { number: cardProps[0], color: cardProps[1] };
-    console.log("Card Object being removed from user hand", removedCardObj);
-    user.hand = user.hand.filter(
-      (obj) =>
-        obj.number != removedCardObj.number || obj.color != removedCardObj.color
-    );
-    const parentElement = e.target.parentNode;
-    e.target.remove();
-    parentElement.remove();
-    console.log("Clicked Image on User Card");
-    discard.cards.push(removedCardObj);
-    console.log("Cards in discard", discard.cards);
-    discard.updateTopCard();
-    discard.processTopCard();
-  }
-});
+//Returns random color
 const randomColor = function () {
   let colorArray = ["red", "blue", "green", "yellow"];
   let rand = Math.floor(Math.random() * colorArray.length);
   return colorArray[rand];
 };
-//Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile
+//Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile, if first discard is wild or plus4 choose a random color to start
+//Shuffle Deck
 deck.shuffle();
+//Shuffle cpuNames array and pick the last 3
 cpuNames.shuffle();
 cpu1.nicknameElement.innerHTML = cpuNames.removeName();
 cpu2.nicknameElement.innerHTML = cpuNames.removeName();
 cpu3.nicknameElement.innerHTML = cpuNames.removeName();
+//Put 7 cards in each players hand. Create visual user card that corresponds to card in hand
 for (let i = 0; i < NUM_OF_STARTING_CARDS; i++) {
-  user.hand.push(deck.removeCard());
-  let userCard = createCardFaceUp(user.hand[i]);
-  user.cardBoxElement.appendChild(userCard);
   cpu1.hand.push(deck.removeCard());
   cpu2.hand.push(deck.removeCard());
   cpu3.hand.push(deck.removeCard());
+  user.hand.push(deck.removeCard());
+  let userCard = createCardFaceUp(user.hand[i]);
+  user.cardBoxElement.appendChild(userCard);
 }
+//Put one card in the discard. Create corresponding visual card
 discard.cards.push(deck.removeCard());
 discard.discardElement.appendChild(createCardFaceUp(discard.cards[0]));
+//If first card is wild. Choose a random color for it. Visually change the card
 if (discard.cards[0].number == "wild") {
   console.log("First discard is wild. Choosing random starting color.");
   discard.cards[0].color = randomColor();
@@ -375,6 +332,7 @@ if (discard.cards[0].number == "wild") {
   currentTopCardElement = document.querySelector("#discard .cardFaceUp");
   currentTopCardElement.className = `cardFaceUp ${discard.cards[0].color}`;
 }
+//If first card is +4. Choose a random color for it. Visually change the card
 if (discard.cards[0].number == "plus4") {
   console.log("First discard is plus4. Choosing random starting color.");
   discard.cards[0].color = randomColor();
@@ -384,5 +342,3 @@ if (discard.cards[0].number == "plus4") {
   );
   currentTopCardOvalElement.className = `oval ${discard.cards[0].color}`;
 }
-// discard.cards.push(deck.removeCard());
-// discard.updateTopCard();
