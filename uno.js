@@ -7,7 +7,6 @@ const cpuNames = {
     "Jeff Bezos",
     "Joe Biden",
     "Ur Mom",
-    "Your Firstborn",
     "Garfield",
     "Derek Zoolander",
     "Oprah Winfrey",
@@ -224,18 +223,14 @@ const cpu3 = {
   hand: [],
 };
 const createCardFaceUp = function (card) {
-  let isWild = false;
-  let isPlus4 = false;
-  if (card.number === "wild") isWild = true;
-  if (card.number == "plus4") isPlus4 = true;
   let newCard = document.createElement("div");
   newCard.className = `cardFaceUp ${card.color}`;
   let oval = document.createElement("div");
   oval.className = "oval";
-  if (isPlus4) oval.className = "oval rainbow";
+  if (card.number == "plus4") oval.className = "oval rainbow";
   let img = document.createElement("img");
   img.src = `icons/${card.number}_${card.color}.png`;
-  if (isWild) img.setAttribute("width", "40px");
+  if (card.number === "wild") img.setAttribute("width", "40px");
   newCard.appendChild(oval);
   newCard.appendChild(img);
   return newCard;
@@ -326,5 +321,21 @@ for (let i = 0; i < NUM_OF_STARTING_CARDS; i++) {
 }
 discard.cards.push(deck.removeCard());
 discard.discardElement.appendChild(createCardFaceUp(discard.cards[0]));
+if (discard.cards[0].number == "wild") {
+  console.log("First discard is wild. Choosing random starting color.");
+  discard.cards[0].color = randomColor();
+  console.log("New random color is " + discard.cards[0].color);
+  currentTopCardElement = document.querySelector("#discard .cardFaceUp");
+  currentTopCardElement.className = `cardFaceUp ${discard.cards[0].color}`;
+}
+if (discard.cards[0].number == "plus4") {
+  console.log("First discard is plus4. Choosing random starting color.");
+  discard.cards[0].color = randomColor();
+  console.log("New random color is " + discard.cards[0].color);
+  currentTopCardOvalElement = document.querySelector(
+    "#discard .cardFaceUp .oval"
+  );
+  currentTopCardOvalElement.className = `oval ${discard.cards[0].color}`;
+}
 // discard.cards.push(deck.removeCard());
 // discard.updateTopCard();
