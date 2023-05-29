@@ -1,5 +1,6 @@
 const NUM_OF_STARTING_CARDS = 7;
-let cpuTurn = false;
+let isCpuTurn = false;
+let isClockwise = true;
 let removedCardObj = null;
 const cpuNames = {
   names: [
@@ -179,7 +180,7 @@ const discard = {
   cards: [],
   discardElement: document.getElementById("discard"),
   updateTopCard: function () {
-    console.log("Changing top card");
+    console.log("Changing discard top card");
     currentTopCardElement = document.querySelector("#discard .cardFaceUp");
     newTopCard = this.cards[this.cards.length - 1];
     currentTopCardElement.classList = `cardFaceUp ${newTopCard.color}`;
@@ -194,7 +195,7 @@ const discard = {
       currentTopCardImg.setAttribute("width", "40px");
     }
     currentTopCardImg.src = `icons/${newTopCard.number}_${newTopCard.color}.png`;
-    console.log(newTopCard);
+    console.log("New top card object", newTopCard);
   },
 };
 const user = {
@@ -237,34 +238,54 @@ const createCardFaceUp = function (card) {
 };
 // Event listener for removing a card when clicked
 document.addEventListener("click", (e) => {
-  if (cpuTurn) return;
+  if (isCpuTurn) return;
   if (e.target.matches("#userCardBox .cardFaceUp")) {
+    let isAMatch = false;
     let imgSrc = e.target.children[1].getAttribute("src"); // icons/0_red.png
     let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
     let cardProps = cardInfo.split("_"); // [0, red]
+    if (
+      cardProps[0] == discard.cards[discard.cards.length - 1].number ||
+      cardProps[1] == discard.cards[discard.cards.length - 1].color
+    )
+      isAMatch = true;
+    if (!isAMatch) {
+      console.log("Card picked does not match");
+      return;
+    }
     removedCardObj = { number: cardProps[0], color: cardProps[1] }; //
-    console.log(removedCardObj);
+    console.log("Card Object being removed from user hand", removedCardObj);
     user.hand = user.hand.filter(
       (obj) =>
         obj.number != removedCardObj.number || obj.color != removedCardObj.color
     );
-    console.log(user.hand);
+    console.log("User hand", user.hand);
     e.target.remove();
     console.log("Clicked User Card");
     discard.cards.push(removedCardObj);
-    console.log(discard.cards);
+    console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
   }
 });
 // Event listener for removing a card when oval is clicked
 document.addEventListener("click", (e) => {
-  if (cpuTurn) return;
+  if (isCpuTurn) return;
   if (e.target.matches("#userCardBox .cardFaceUp .oval")) {
+    let isAMatch = false;
     let imgSrc = e.target.nextSibling.getAttribute("src"); // icons/0_red.png
     let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
     let cardProps = cardInfo.split("_"); // [0, red]
+    if (
+      cardProps[0] == discard.cards[discard.cards.length - 1].number ||
+      cardProps[1] == discard.cards[discard.cards.length - 1].color
+    )
+      isAMatch = true;
+    if (!isAMatch) {
+      console.log("Card picked does not match");
+      return;
+    }
     removedCardObj = { number: cardProps[0], color: cardProps[1] };
-    console.log(removedCardObj);
+    console.log("Card Object being removed from user hand", removedCardObj);
     user.hand = user.hand.filter(
       (obj) =>
         obj.number != removedCardObj.number || obj.color != removedCardObj.color
@@ -274,19 +295,31 @@ document.addEventListener("click", (e) => {
     parentElement.remove();
     console.log("Clicked Oval on User Card");
     discard.cards.push(removedCardObj);
-    console.log(discard.cards);
+    console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
   }
 });
 // Event listener for removing a card when image is clicked
 document.addEventListener("click", (e) => {
-  if (cpuTurn) return;
+  if (isCpuTurn) return;
   if (e.target.matches("#userCardBox .cardFaceUp img")) {
+    let isAMatch = false;
     let imgSrc = e.target.getAttribute("src"); // icons/0_red.png
     let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
     let cardProps = cardInfo.split("_"); // [0, red]
+    if (
+      cardProps[0] == discard.cards[discard.cards.length - 1].number ||
+      cardProps[1] == discard.cards[discard.cards.length - 1].color ||
+      cardProps[0] == "wild" ||
+      cardProps[0] == "plus4"
+    )
+      isAMatch = true;
+    if (!isAMatch) {
+      console.log("Card picked does not match");
+      return;
+    }
     removedCardObj = { number: cardProps[0], color: cardProps[1] };
-    console.log(removedCardObj);
+    console.log("Card Object being removed from user hand", removedCardObj);
     user.hand = user.hand.filter(
       (obj) =>
         obj.number != removedCardObj.number || obj.color != removedCardObj.color
@@ -296,7 +329,7 @@ document.addEventListener("click", (e) => {
     parentElement.remove();
     console.log("Clicked Image on User Card");
     discard.cards.push(removedCardObj);
-    console.log(discard.cards);
+    console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
   }
 });
