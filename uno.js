@@ -322,9 +322,11 @@ document.addEventListener("click", (e) => {
         "#discard .cardFaceUp .oval"
       );
       discardElementOval.classList = `oval ${e.target.classList[1]}`;
+      discard.cards[discard.cards.length - 1].color = e.target.classList[1];
     } else {
       let discardElement = document.querySelector("#discard .cardFaceUp");
       discardElement.classList = `cardFaceUp ${e.target.classList[1]}`;
+      discard.cards[discard.cards.length - 1].color = e.target.classList[1];
     }
   }
 });
