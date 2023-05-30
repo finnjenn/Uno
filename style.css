@@ -114,6 +114,7 @@ body {
 }
 .modal-content {
   margin-top: 50%;
+  background-color: rgb(213, 213, 213);
 }
 #wildCardBox {
   display: flex;
@@ -121,6 +122,9 @@ body {
 }
 #wildCardBox .cardFaceUp {
   margin: 0;
+}
+#wildCardBox .cardFaceUp:hover {
+  transform: scale(1.1);
 }
 .red {
   background-color: #d72600;

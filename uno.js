@@ -1,7 +1,9 @@
 const NUM_OF_STARTING_CARDS = 7;
 let isCpuTurn = false;
+let isUserTurn = true;
 let isClockwise = true;
 let removedCardObj = null;
+const wildModal = new bootstrap.Modal("#wildModal");
 const cpuNames = {
   names: [
     "Elon Musk",
@@ -204,6 +206,13 @@ const discard = {
       if (isClockwise) isClockwise = false;
       else isClockwise = true;
     }
+    if (
+      this.cards[this.cards.length - 1].number == "wild" ||
+      this.cards[this.cards.length - 1].number == "plus4"
+    ) {
+      console.log("Wild played. Showing modal.");
+      wildModal.show();
+    }
   },
 };
 const user = {
@@ -305,6 +314,21 @@ const randomColor = function () {
   let rand = Math.floor(Math.random() * colorArray.length);
   return colorArray[rand];
 };
+document.addEventListener("click", (e) => {
+  if (e.target.matches("#wildCardBox .cardFaceUp")) {
+    console.log("Card in Wild Modal Clicked", e.target.classList[1]);
+    if (discard.cards[discard.cards.length - 1].number == "plus4") {
+      let discardElementOval = document.querySelector(
+        "#discard .cardFaceUp .oval"
+      );
+      discardElementOval.classList = `oval ${e.target.classList[1]}`;
+    } else {
+      let discardElement = document.querySelector("#discard .cardFaceUp");
+      discardElement.classList = `cardFaceUp ${e.target.classList[1]}`;
+    }
+  }
+});
+
 //Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile, if first discard is wild or plus4 choose a random color to start
 //Shuffle Deck
 deck.shuffle();
