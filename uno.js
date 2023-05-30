@@ -18,6 +18,7 @@ const cpuNames = {
     "Ash Ketchum",
     "Pikachu",
     "Katy Perry",
+    "Dua Lipa",
     "Zendaya",
     "Ice Cube",
     "Eminem",
@@ -308,12 +309,13 @@ document.addEventListener("click", (e) => {
     discard.processTopCard();
   }
 });
-//Returns random color
+// Returns random color
 const randomColor = function () {
   let colorArray = ["red", "blue", "green", "yellow"];
   let rand = Math.floor(Math.random() * colorArray.length);
   return colorArray[rand];
 };
+// Event listener for when card in wild modal is clicked
 document.addEventListener("click", (e) => {
   if (e.target.matches("#wildCardBox .cardFaceUp")) {
     console.log("Card in Wild Modal Clicked", e.target.classList[1]);
@@ -328,6 +330,20 @@ document.addEventListener("click", (e) => {
       discardElement.classList = `cardFaceUp ${e.target.classList[1]}`;
       discard.cards[discard.cards.length - 1].color = e.target.classList[1];
     }
+  }
+});
+// Event listener for when draw pile is clicked
+document.addEventListener("click", (e) => {
+  if (isCpuTurn) return;
+  if (
+    e.target.matches("#deck .cardFaceDown") ||
+    e.target.matches("#deck .cardFaceDown .oval")
+  ) {
+    console.log("Draw pile clicked. Drawing card for user.");
+    let newCardObj = deck.cards.pop();
+    console.log("New card object", newCardObj);
+    let newCard = createCardFaceUp(newCardObj);
+    user.cardBoxElement.appendChild(newCard);
   }
 });
 
