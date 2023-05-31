@@ -224,6 +224,8 @@ const discard = {
 const user = {
   hand: [],
   cardBoxElement: document.getElementById("userCardBox"),
+  next: cpu1,
+  previous: cpu3,
 };
 const cpu1 = {
   identifier: "cpu1",
@@ -231,6 +233,8 @@ const cpu1 = {
   nicknameElement: document.querySelector("#cpu1 .nickname"),
   countElement: document.querySelector("#cpu1 .count"),
   hand: [],
+  next: cpu2,
+  previous: user,
 };
 const cpu2 = {
   identifier: "cpu2",
@@ -238,6 +242,8 @@ const cpu2 = {
   nicknameElement: document.querySelector("#cpu2 .nickname"),
   countElement: document.querySelector("#cpu2 .count"),
   hand: [],
+  next: cpu3,
+  previous: cpu1,
 };
 const cpu3 = {
   identifier: "cpu3",
@@ -245,6 +251,8 @@ const cpu3 = {
   nicknameElement: document.querySelector("#cpu3 .nickname"),
   countElement: document.querySelector("#cpu3 .count"),
   hand: [],
+  next: user,
+  previous: cpu2,
 };
 const createCardFaceUp = function (card) {
   let newCard = document.createElement("div");
