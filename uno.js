@@ -183,10 +183,14 @@ const deck = {
 const discard = {
   cards: [],
   discardElement: document.getElementById("discard"),
+  topCardIndex: function () {
+    return this.cards.length - 1;
+  },
+  // Checks last/most recently added card object and uses its properties to change the appearance of the top of the discard pile
   updateTopCard: function () {
     console.log("Changing discard top card");
     currentTopCardElement = document.querySelector("#discard .cardFaceUp");
-    newTopCard = this.cards[this.cards.length - 1];
+    newTopCard = this.cards[this.topCardIndex()];
     currentTopCardElement.classList = `cardFaceUp ${newTopCard.color}`;
     currentTopCardOval = document.querySelector("#discard .cardFaceUp .oval");
     if (newTopCard.number == "plus4") {
@@ -202,14 +206,15 @@ const discard = {
     console.log("New top card object", newTopCard);
   },
   processTopCard: function () {
-    if (this.cards[this.cards.length - 1].number == "reverse") {
+    if (this.cards[this.topCardIndex()].number == "reverse") {
       console.log("Reverse card has been played. Changing direction of play.");
       if (isClockwise) isClockwise = false;
       else isClockwise = true;
+      return;
     }
     if (
-      this.cards[this.cards.length - 1].number == "wild" ||
-      this.cards[this.cards.length - 1].number == "plus4"
+      this.cards[this.topCardIndex()].number == "wild" ||
+      this.cards[this.topCardIndex()].number == "plus4"
     ) {
       console.log("Wild played. Showing modal.");
       wildModal.show();
@@ -279,8 +284,8 @@ document.addEventListener("click", (e) => {
     let cardInfo = imgSrc.slice(6, imgSrc.indexOf(".")); // 0_red
     let cardProps = cardInfo.split("_"); // [0, red]
     if (
-      cardProps[0] == discard.cards[discard.cards.length - 1].number ||
-      cardProps[1] == discard.cards[discard.cards.length - 1].color ||
+      cardProps[0] == discard.cards[discard.topCardIndex()].number ||
+      cardProps[1] == discard.cards[discard.topCardIndex()].color ||
       cardProps[0] == "wild" ||
       cardProps[0] == "plus4"
     )
@@ -329,11 +334,11 @@ document.addEventListener("click", (e) => {
         "#discard .cardFaceUp .oval"
       );
       discardElementOval.classList = `oval ${e.target.classList[1]}`;
-      discard.cards[discard.cards.length - 1].color = e.target.classList[1];
+      discard.cards[discard.topCardIndex()].color = e.target.classList[1];
     } else {
       let discardElement = document.querySelector("#discard .cardFaceUp");
       discardElement.classList = `cardFaceUp ${e.target.classList[1]}`;
-      discard.cards[discard.cards.length - 1].color = e.target.classList[1];
+      discard.cards[discard.topCardIndex()].color = e.target.classList[1];
     }
   }
 });
