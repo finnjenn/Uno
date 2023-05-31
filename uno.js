@@ -309,6 +309,11 @@ document.addEventListener("click", (e) => {
     discard.processTopCard();
   }
 });
+const updateCpuCardCount = function () {
+  cpu1.countElement.innerText = cpu1.hand.length;
+  cpu2.countElement.innerText = cpu2.hand.length;
+  cpu3.countElement.innerText = cpu3.hand.length;
+};
 // Returns random color
 const randomColor = function () {
   let colorArray = ["red", "blue", "green", "yellow"];
