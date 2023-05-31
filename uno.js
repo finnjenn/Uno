@@ -322,7 +322,9 @@ const createCardFaceUp = function (card) {
 };
 // Event listener for removing card when clicked
 document.addEventListener("click", (e) => {
-  if (isCpuTurn) return;
+  if (cpu1.isTakingTurn) return;
+  if (cpu2.isTakingTurn) return;
+  if (cpu3.isTakingTurn) return;
   if (
     e.target.matches("#userCardBox .cardFaceUp") ||
     e.target.matches("#userCardBox .cardFaceUp .oval") ||
