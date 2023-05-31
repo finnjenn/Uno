@@ -224,8 +224,7 @@ const discard = {
 const user = {
   hand: [],
   cardBoxElement: document.getElementById("userCardBox"),
-  next: cpu1,
-  previous: cpu3,
+  isTakingTurn: true,
 };
 const cpu1 = {
   identifier: "cpu1",
@@ -233,8 +232,10 @@ const cpu1 = {
   nicknameElement: document.querySelector("#cpu1 .nickname"),
   countElement: document.querySelector("#cpu1 .count"),
   hand: [],
-  next: cpu2,
-  previous: user,
+  isTakingTurn: false,
+  startTurn: function () {
+    console.log("Cpu1 starting turn");
+  },
 };
 const cpu2 = {
   identifier: "cpu2",
@@ -242,8 +243,10 @@ const cpu2 = {
   nicknameElement: document.querySelector("#cpu2 .nickname"),
   countElement: document.querySelector("#cpu2 .count"),
   hand: [],
-  next: cpu3,
-  previous: cpu1,
+  isTakingTurn: false,
+  startTurn: function () {
+    console.log("Cpu2 starting turn");
+  },
 };
 const cpu3 = {
   identifier: "cpu3",
@@ -251,9 +254,19 @@ const cpu3 = {
   nicknameElement: document.querySelector("#cpu3 .nickname"),
   countElement: document.querySelector("#cpu3 .count"),
   hand: [],
-  next: user,
-  previous: cpu2,
+  isTakingTurn: false,
+  startTurn: function () {
+    console.log("Cpu3 starting turn");
+  },
 };
+user.next = cpu1;
+user.prev = cpu3;
+cpu1.next = cpu2;
+cpu1.prev = user;
+cpu2.next = cpu3;
+cpu2.prev = cpu1;
+cpu3.next = user;
+cpu3.prev = cpu2;
 const createCardFaceUp = function (card) {
   let newCard = document.createElement("div");
   newCard.className = `cardFaceUp ${card.color}`;
@@ -322,6 +335,12 @@ document.addEventListener("click", (e) => {
     discard.processTopCard();
   }
 });
+const takingTurn = function () {
+  if (user.isTakingTurn) return user;
+  if (cpu1.isTakingTurn) return cpu1;
+  if (cpu2.isTakingTurn) return cpu2;
+  if (cpu3.isTakingTurn) return cpu3;
+};
 const updateCpuCardCount = function () {
   cpu1.countElement.innerText = cpu1.hand.length;
   cpu2.countElement.innerText = cpu2.hand.length;
