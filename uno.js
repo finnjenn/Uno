@@ -3,6 +3,7 @@ let isCpuTurn = false;
 let isUserTurn = true;
 let isClockwise = true;
 let removedCardObj = null;
+let isModalShowing = false;
 const wildModal = new bootstrap.Modal("#wildModal");
 const cpuNames = {
   names: [
@@ -217,18 +218,35 @@ const discard = {
       this.cards[this.topCardIndex()].number == "plus4"
     ) {
       console.log("Wild played. Showing modal.");
+      isModalShowing = true;
+      console.log("isModalShowing:", isModalShowing);
       wildModal.show();
     }
   },
   movePlayControl: function () {
+    if (isModalShowing) {
+      console.log("Modal is showing. Exiting movePlayControl.");
+      return;
+    }
     let current = takingTurn();
     console.log("Player that just finished playing", current);
+    current.isTakingTurn = false;
+    if (isClockwise) {
+      current.next.isTakingTurn = true;
+      current.next.startTurn();
+    } else {
+      current.prev.isTakingTurn = true;
+      current.prev.startTurn();
+    }
   },
 };
 const user = {
   hand: [],
   cardBoxElement: document.getElementById("userCardBox"),
   isTakingTurn: true,
+  startTurn: function () {
+    console.log("User starting turn");
+  },
 };
 const cpu1 = {
   identifier: "cpu1",
@@ -239,6 +257,12 @@ const cpu1 = {
   isTakingTurn: false,
   startTurn: function () {
     console.log("Cpu1 starting turn");
+    setTimeout(() => {
+      console.log("Cpu1 picking a card");
+      let cardPicked = this.hand[0];
+      console.log("I pick", cardPicked);
+      discard.movePlayControl();
+    }, 1000);
   },
 };
 const cpu2 = {
@@ -250,6 +274,12 @@ const cpu2 = {
   isTakingTurn: false,
   startTurn: function () {
     console.log("Cpu2 starting turn");
+    setTimeout(() => {
+      console.log("Cpu2 picking a card");
+      let cardPicked = this.hand[0];
+      console.log("I pick", cardPicked);
+      discard.movePlayControl();
+    }, 1000);
   },
 };
 const cpu3 = {
@@ -261,6 +291,12 @@ const cpu3 = {
   isTakingTurn: false,
   startTurn: function () {
     console.log("Cpu3 starting turn");
+    setTimeout(() => {
+      console.log("Cpu3 picking a card");
+      let cardPicked = this.hand[0];
+      console.log("I pick", cardPicked);
+      discard.movePlayControl();
+    }, 1000);
   },
 };
 user.next = cpu1;
@@ -327,10 +363,14 @@ document.addEventListener("click", (e) => {
     e.target.remove();
     removedCardObj = { number: cardProps[0], color: cardProps[1] };
     console.log("Card Object being removed from user hand", removedCardObj);
-    user.hand = user.hand.filter(
-      (obj) =>
-        obj.number != removedCardObj.number || obj.color != removedCardObj.color
-    );
+    let indexOfRemovedCard = user.hand.findIndex(function (obj) {
+      return (
+        obj.number == removedCardObj.number && obj.color == removedCardObj.color
+      );
+    });
+    console.log("The index of the removed card is", indexOfRemovedCard),
+      ": splicing card from user hand";
+    user.hand.splice(indexOfRemovedCard, 1);
     console.log("User hand", user.hand);
     console.log("Clicked User Card");
     discard.cards.push(removedCardObj);
@@ -372,6 +412,13 @@ document.addEventListener("click", (e) => {
       discardElement.classList = `cardFaceUp ${e.target.classList[1]}`;
       discard.cards[discard.topCardIndex()].color = e.target.classList[1];
     }
+    console.log(
+      "Hiding modal and changing isModalShowing from:",
+      isModalShowing
+    );
+    isModalShowing = false;
+    console.log("To:", isModalShowing);
+    discard.movePlayControl();
   }
 });
 // Event listener for when draw pile is clicked
