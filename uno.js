@@ -220,6 +220,10 @@ const discard = {
       wildModal.show();
     }
   },
+  movePlayControl: function () {
+    let current = takingTurn();
+    console.log("Player that just finished playing", current);
+  },
 };
 const user = {
   hand: [],
@@ -333,6 +337,7 @@ document.addEventListener("click", (e) => {
     console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
     discard.processTopCard();
+    discard.movePlayControl();
   }
 });
 const takingTurn = function () {
@@ -356,7 +361,7 @@ const randomColor = function () {
 document.addEventListener("click", (e) => {
   if (e.target.matches("#wildCardBox .cardFaceUp")) {
     console.log("Card in Wild Modal Clicked", e.target.classList[1]);
-    if (discard.cards[discard.cards.length - 1].number == "plus4") {
+    if (discard.cards[discard.topCardIndex()].number == "plus4") {
       let discardElementOval = document.querySelector(
         "#discard .cardFaceUp .oval"
       );
@@ -378,6 +383,7 @@ document.addEventListener("click", (e) => {
   ) {
     console.log("Draw pile clicked. Drawing card for user.");
     let newCardObj = deck.cards.pop();
+    user.hand.push(newCardObj);
     console.log("New card object", newCardObj);
     let newCard = createCardFaceUp(newCardObj);
     user.cardBoxElement.appendChild(newCard);
