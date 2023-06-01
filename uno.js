@@ -1,10 +1,13 @@
 const NUM_OF_STARTING_CARDS = 7;
+const TIME_CPUS_WAIT_FOR_TURN = 1500;
+const wildModal = new bootstrap.Modal("#wildModal");
 let isCpuTurn = false;
 let isUserTurn = true;
 let isClockwise = true;
+let skipPlayed = false;
 let removedCardObj = null;
 let isModalShowing = false;
-const wildModal = new bootstrap.Modal("#wildModal");
+
 const cpuNames = {
   names: [
     "Elon Musk",
@@ -213,9 +216,15 @@ const discard = {
       else isClockwise = true;
       return;
     }
+    if (this.cards[this.topCardIndex()].number == "skip") {
+      console.log("Skip card has been played. Moving play forward twice.");
+      skipPlayed = true;
+      return;
+    }
     if (
-      this.cards[this.topCardIndex()].number == "wild" ||
-      this.cards[this.topCardIndex()].number == "plus4"
+      (this.cards[this.topCardIndex()].number == "wild" ||
+        this.cards[this.topCardIndex()].number == "plus4") &&
+      user.isTakingTurn
     ) {
       console.log("Wild played. Showing modal.");
       isModalShowing = true;
@@ -231,6 +240,13 @@ const discard = {
     let current = takingTurn();
     console.log("Player that just finished playing", current);
     current.isTakingTurn = false;
+    if (skipPlayed) {
+      skipPlayed = false;
+      current.next.next.isTakingTurn = true;
+      current.next.next.startTurn();
+
+      return;
+    }
     if (isClockwise) {
       current.next.isTakingTurn = true;
       current.next.startTurn();
@@ -269,7 +285,7 @@ const cpu1 = {
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
       discard.movePlayControl();
-    }, 1000);
+    }, TIME_CPUS_WAIT_FOR_TURN);
   },
 };
 const cpu2 = {
@@ -290,7 +306,7 @@ const cpu2 = {
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
       discard.movePlayControl();
-    }, 1000);
+    }, TIME_CPUS_WAIT_FOR_TURN);
   },
 };
 const cpu3 = {
@@ -311,7 +327,7 @@ const cpu3 = {
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
       discard.movePlayControl();
-    }, 1000);
+    }, TIME_CPUS_WAIT_FOR_TURN);
   },
 };
 user.next = cpu1;
@@ -443,7 +459,9 @@ document.addEventListener("click", (e) => {
 });
 // Event listener for when draw pile is clicked
 document.addEventListener("click", (e) => {
-  if (isCpuTurn) return;
+  if (cpu1.isTakingTurn) return;
+  if (cpu2.isTakingTurn) return;
+  if (cpu3.isTakingTurn) return;
   if (
     e.target.matches("#deck .cardFaceDown") ||
     e.target.matches("#deck .cardFaceDown .oval")
