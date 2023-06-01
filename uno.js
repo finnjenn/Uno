@@ -1,5 +1,5 @@
 const NUM_OF_STARTING_CARDS = 7;
-const TIME_CPUS_WAIT_FOR_TURN = 1500;
+const TIME_CPUS_WAIT_FOR_TURN = 1000;
 const wildModal = new bootstrap.Modal("#wildModal");
 let isCpuTurn = false;
 let isUserTurn = true;
@@ -220,6 +220,38 @@ const discard = {
       console.log("Skip card has been played. Moving play forward twice.");
       skipPlayed = true;
       return;
+    }
+    if (this.cards[this.topCardIndex()].number == "plus2") {
+      console.log("Plus 2 played, adding cards to next in play.");
+      let current = takingTurn();
+      if (isClockwise) {
+        current.next.hand.push(deck.removeCard());
+        current.next.hand.push(deck.removeCard());
+        updateCpuCardCount();
+      }
+      if (!isClockwise) {
+        current.prev.hand.push(deck.removeCard());
+        current.prev.hand.push(deck.removeCard());
+        updateCpuCardCount();
+      }
+    }
+    if (this.cards[this.topCardIndex()].number == "plus4") {
+      console.log("Plus 4 played, adding cards to next in play.");
+      let current = takingTurn();
+      if (isClockwise) {
+        current.next.hand.push(deck.removeCard());
+        current.next.hand.push(deck.removeCard());
+        current.next.hand.push(deck.removeCard());
+        current.next.hand.push(deck.removeCard());
+        updateCpuCardCount();
+      }
+      if (!isClockwise) {
+        current.prev.hand.push(deck.removeCard());
+        current.prev.hand.push(deck.removeCard());
+        current.prev.hand.push(deck.removeCard());
+        current.prev.hand.push(deck.removeCard());
+        updateCpuCardCount();
+      }
     }
     if (
       (this.cards[this.topCardIndex()].number == "wild" ||
