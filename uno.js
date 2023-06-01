@@ -227,11 +227,27 @@ const discard = {
       if (isClockwise) {
         current.next.hand.push(deck.removeCard());
         current.next.hand.push(deck.removeCard());
+        if (current.next == user) {
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 2])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 1])
+          );
+        }
         updateCpuCardCount();
       }
       if (!isClockwise) {
         current.prev.hand.push(deck.removeCard());
         current.prev.hand.push(deck.removeCard());
+        if (current.prev == user) {
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 2])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 1])
+          );
+        }
         updateCpuCardCount();
       }
     }
@@ -243,6 +259,20 @@ const discard = {
         current.next.hand.push(deck.removeCard());
         current.next.hand.push(deck.removeCard());
         current.next.hand.push(deck.removeCard());
+        if (current.next == user) {
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 4])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 3])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 2])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 1])
+          );
+        }
         updateCpuCardCount();
       }
       if (!isClockwise) {
@@ -250,6 +280,20 @@ const discard = {
         current.prev.hand.push(deck.removeCard());
         current.prev.hand.push(deck.removeCard());
         current.prev.hand.push(deck.removeCard());
+        if (current.prev == user) {
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 4])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 3])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 2])
+          );
+          user.cardBoxElement.appendChild(
+            createCardFaceUp(user.hand[user.hand.length - 1])
+          );
+        }
         updateCpuCardCount();
       }
     }
