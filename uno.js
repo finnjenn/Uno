@@ -7,7 +7,13 @@ let isClockwise = true;
 let skipPlayed = false;
 let removedCardObj = null;
 let isModalShowing = false;
-
+// Returns random color
+const randomColor = function () {
+  let colorArray = ["red", "blue", "green", "yellow"];
+  let rand = Math.floor(Math.random() * colorArray.length);
+  console.log("Random Color picked is:", colorArray[rand]);
+  return colorArray[rand];
+};
 const cpuNames = {
   names: [
     "Elon Musk",
@@ -305,6 +311,29 @@ const discard = {
         updateCpuCardCount();
       }
     }
+    if (
+      this.cards[this.topCardIndex()].number == "wild" &&
+      !user.isTakingTurn
+    ) {
+      let currentTopCardElement = document.querySelector(
+        "#discard .cardFaceUp"
+      );
+      let rand = randomColor();
+      currentTopCardElement.classList = `cardFaceUp ${rand}`;
+      discard.cards[discard.topCardIndex()].color = rand;
+    }
+    if (
+      this.cards[this.topCardIndex()].number == "plus4" &&
+      !user.isTakingTurn
+    ) {
+      let currentTopCardOval = document.querySelector(
+        "#discard .cardFaceUp .oval"
+      );
+      let rand = randomColor();
+      currentTopCardOval.classList = `oval ${rand}`;
+      console.log(discard.cards[discard.topCardIndex]);
+      discard.cards[discard.topCardIndex()].color = rand;
+    }
     // Show wild card color selection modal if its user turn and they played a wild card
     if (
       (this.cards[this.topCardIndex()].number == "wild" ||
@@ -373,7 +402,7 @@ const cpu1 = {
       if (
         this.hand[i].number == topCard.number ||
         this.hand[i].color == topCard.color ||
-        this.hand.color == "black"
+        this.hand[i].color == "black"
       ) {
         pickedCard = this.hand[i];
         let indexOfPickedCard = i;
@@ -601,12 +630,6 @@ const updateCpuCardCount = function () {
   if (cpu3.hand.length == 1) cpu3.countElement.innerText = "UNO";
   else cpu3.countElement.innerText = cpu3.hand.length;
 };
-// Returns random color
-const randomColor = function () {
-  let colorArray = ["red", "blue", "green", "yellow"];
-  let rand = Math.floor(Math.random() * colorArray.length);
-  return colorArray[rand];
-};
 // Event listener for when card in wild color selection modal is clicked
 // Changes how the wild card visually looks based on which color user picks
 // If a regular wild was played, the background color changes to match user color selection
@@ -650,6 +673,11 @@ document.addEventListener("click", (e) => {
     let newCard = createCardFaceUp(newCardObj);
     newCard.classList.add("active");
     user.cardBoxElement.appendChild(newCard);
+    // Removes visual indication that it is user's turn
+    user.cardBoxElement.childNodes.forEach((card) => {
+      card.classList.remove("active");
+    });
+    discard.movePlayControl();
   }
 });
 
