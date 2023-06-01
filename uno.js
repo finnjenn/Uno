@@ -499,9 +499,12 @@ const takingTurn = function () {
   if (cpu3.isTakingTurn) return cpu3;
 };
 const updateCpuCardCount = function () {
-  cpu1.countElement.innerText = cpu1.hand.length;
-  cpu2.countElement.innerText = cpu2.hand.length;
-  cpu3.countElement.innerText = cpu3.hand.length;
+  if (cpu1.hand.length == 1) cpu1.countElement.innerText = "UNO";
+  else cpu1.countElement.innerText = cpu1.hand.length;
+  if (cpu2.hand.length == 1) cpu2.countElement.innerText = "UNO";
+  else cpu2.countElement.innerText = cpu2.hand.length;
+  if (cpu3.hand.length == 1) cpu3.countElement.innerText = "UNO";
+  else cpu3.countElement.innerText = cpu3.hand.length;
 };
 // Returns random color
 const randomColor = function () {
