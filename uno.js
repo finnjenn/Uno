@@ -1,5 +1,5 @@
 const NUM_OF_STARTING_CARDS = 7;
-const TIME_CPUS_WAIT_FOR_TURN = 1000;
+const TIME_CPUS_WAIT_FOR_TURN = 1500;
 const wildModal = new bootstrap.Modal("#wildModal");
 let isCpuTurn = false;
 let isUserTurn = true;
@@ -217,7 +217,7 @@ const discard = {
       return;
     }
     if (this.cards[this.topCardIndex()].number == "skip") {
-      console.log("Skip card has been played. Moving play forward twice.");
+      console.log("Skip card has been played.");
       skipPlayed = true;
       return;
     }
@@ -225,8 +225,10 @@ const discard = {
       console.log("Plus 2 played, adding cards to next in play.");
       let current = takingTurn();
       if (isClockwise) {
+        // Add card objects to next player if clockwise
         current.next.hand.push(deck.removeCard());
         current.next.hand.push(deck.removeCard());
+        // If plus2 was played on user, create the visual cards
         if (current.next == user) {
           user.cardBoxElement.appendChild(
             createCardFaceUp(user.hand[user.hand.length - 2])
@@ -238,8 +240,10 @@ const discard = {
         updateCpuCardCount();
       }
       if (!isClockwise) {
+        // Add card objects to previous player if not clockwise
         current.prev.hand.push(deck.removeCard());
         current.prev.hand.push(deck.removeCard());
+        // If plus2 was played on user, create the visual cards
         if (current.prev == user) {
           user.cardBoxElement.appendChild(
             createCardFaceUp(user.hand[user.hand.length - 2])
@@ -254,11 +258,13 @@ const discard = {
     if (this.cards[this.topCardIndex()].number == "plus4") {
       console.log("Plus 4 played, adding cards to next in play.");
       let current = takingTurn();
+      // Add card objects to next player if clockwise
       if (isClockwise) {
         current.next.hand.push(deck.removeCard());
         current.next.hand.push(deck.removeCard());
         current.next.hand.push(deck.removeCard());
         current.next.hand.push(deck.removeCard());
+        // If plus4 was played on user, create the visual cards
         if (current.next == user) {
           user.cardBoxElement.appendChild(
             createCardFaceUp(user.hand[user.hand.length - 4])
@@ -276,10 +282,12 @@ const discard = {
         updateCpuCardCount();
       }
       if (!isClockwise) {
+        // Add card objects to previous player if not clockwise
         current.prev.hand.push(deck.removeCard());
         current.prev.hand.push(deck.removeCard());
         current.prev.hand.push(deck.removeCard());
         current.prev.hand.push(deck.removeCard());
+        // If plus4 was played on user, create the visual cards
         if (current.prev == user) {
           user.cardBoxElement.appendChild(
             createCardFaceUp(user.hand[user.hand.length - 4])
@@ -297,6 +305,7 @@ const discard = {
         updateCpuCardCount();
       }
     }
+    // Show wild card color selection modal if its user turn and they played a wild card
     if (
       (this.cards[this.topCardIndex()].number == "wild" ||
         this.cards[this.topCardIndex()].number == "plus4") &&
@@ -308,19 +317,20 @@ const discard = {
       wildModal.show();
     }
   },
+  // Called when player has picked their card and control of play needs to move to another player
   movePlayControl: function () {
+    // Exit function if modal is showing. Modal will call this function again once it closes
     if (isModalShowing) {
       console.log("Modal is showing. Exiting movePlayControl.");
       return;
     }
     let current = takingTurn();
-    console.log("Player that just finished playing", current);
     current.isTakingTurn = false;
+    console.log("Player that just finished playing", current);
     if (skipPlayed) {
       skipPlayed = false;
       current.next.next.isTakingTurn = true;
       current.next.next.startTurn();
-
       return;
     }
     if (isClockwise) {
@@ -350,13 +360,40 @@ const cpu1 = {
   countElement: document.querySelector("#cpu1 .count"),
   hand: [],
   isTakingTurn: false,
+  drawCard: function () {
+    this.hand.push(deck.removeCard());
+    console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
+    updateCpuCardCount();
+  },
+  pickCard: function () {
+    console.log("Cpu1 picking a card");
+    let pickedCard;
+    let topCard = discard.cards[discard.topCardIndex()];
+    for (let i = 0; i < this.hand.length; i++) {
+      if (
+        this.hand[i].number == topCard.number ||
+        this.hand[i].color == topCard.color ||
+        this.hand.color == "black"
+      ) {
+        pickedCard = this.hand[i];
+        let indexOfPickedCard = i;
+        this.hand.splice(indexOfPickedCard, 1);
+        updateCpuCardCount();
+        discard.cards.push(pickedCard);
+        discard.updateTopCard();
+        discard.processTopCard();
+        return pickedCard;
+      }
+    }
+    console.log("Card not found. Drawing card from deck");
+    this.drawCard();
+  },
   startTurn: function () {
     console.log("Cpu1 starting turn");
     this.countElement.style.backgroundColor = "white";
     this.countElement.style.color = "black";
     setTimeout(() => {
-      console.log("Cpu1 picking a card");
-      let cardPicked = this.hand[0];
+      let cardPicked = this.pickCard();
       console.log("I pick", cardPicked);
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
@@ -371,13 +408,41 @@ const cpu2 = {
   countElement: document.querySelector("#cpu2 .count"),
   hand: [],
   isTakingTurn: false,
+  drawCard: function () {
+    this.hand.push(deck.removeCard());
+    console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
+    updateCpuCardCount();
+  },
+  pickCard: function () {
+    console.log("Cpu2 picking a card");
+    let pickedCard;
+    let topCard = discard.cards[discard.topCardIndex()];
+    for (let i = 0; i < this.hand.length; i++) {
+      if (
+        this.hand[i].number == topCard.number ||
+        this.hand[i].color == topCard.color ||
+        this.hand.color == "black"
+      ) {
+        pickedCard = this.hand[i];
+        let indexOfPickedCard = i;
+        this.hand.splice(indexOfPickedCard, 1);
+        updateCpuCardCount();
+        discard.cards.push(pickedCard);
+        discard.updateTopCard();
+        discard.processTopCard();
+        return pickedCard;
+      }
+    }
+    console.log("Card not found. Drawing card from deck");
+    this.drawCard();
+  },
   startTurn: function () {
     console.log("Cpu2 starting turn");
     this.countElement.style.backgroundColor = "white";
     this.countElement.style.color = "black";
     setTimeout(() => {
       console.log("Cpu2 picking a card");
-      let cardPicked = this.hand[0];
+      let cardPicked = this.pickCard();
       console.log("I pick", cardPicked);
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
@@ -392,13 +457,41 @@ const cpu3 = {
   countElement: document.querySelector("#cpu3 .count"),
   hand: [],
   isTakingTurn: false,
+  drawCard: function () {
+    this.hand.push(deck.removeCard());
+    console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
+    updateCpuCardCount();
+  },
+  pickCard: function () {
+    console.log("Cpu3 picking a card");
+    let pickedCard;
+    let topCard = discard.cards[discard.topCardIndex()];
+    for (let i = 0; i < this.hand.length; i++) {
+      if (
+        this.hand[i].number == topCard.number ||
+        this.hand[i].color == topCard.color ||
+        this.hand.color == "black"
+      ) {
+        pickedCard = this.hand[i];
+        let indexOfPickedCard = i;
+        this.hand.splice(indexOfPickedCard, 1);
+        updateCpuCardCount();
+        discard.cards.push(pickedCard);
+        discard.updateTopCard();
+        discard.processTopCard();
+        return pickedCard;
+      }
+    }
+    console.log("Card not found. Drawing card from deck");
+    this.drawCard();
+  },
   startTurn: function () {
     console.log("Cpu3 starting turn");
     this.countElement.style.backgroundColor = "white";
     this.countElement.style.color = "black";
     setTimeout(() => {
       console.log("Cpu3 picking a card");
-      let cardPicked = this.hand[0];
+      let cardPicked = this.pickCard();
       console.log("I pick", cardPicked);
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
@@ -437,6 +530,7 @@ document.addEventListener("click", (e) => {
     e.target.matches("#userCardBox .cardFaceUp .oval") ||
     e.target.matches("#userCardBox .cardFaceUp img")
   ) {
+    // Keeps track of whether card clicked matches the top of the discard
     let isAMatch = false;
     let imgSrc = "";
     if (e.target.matches("#userCardBox .cardFaceUp")) {
@@ -486,6 +580,7 @@ document.addEventListener("click", (e) => {
     console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
     discard.processTopCard();
+    // Removes visual indication that it is user's turn
     user.cardBoxElement.childNodes.forEach((card) => {
       card.classList.remove("active");
     });
@@ -512,7 +607,10 @@ const randomColor = function () {
   let rand = Math.floor(Math.random() * colorArray.length);
   return colorArray[rand];
 };
-// Event listener for when card in wild modal is clicked
+// Event listener for when card in wild color selection modal is clicked
+// Changes how the wild card visually looks based on which color user picks
+// If a regular wild was played, the background color changes to match user color selection
+// If a wild plus 4 was played, the oval color changes to match user color selection
 document.addEventListener("click", (e) => {
   if (e.target.matches("#wildCardBox .cardFaceUp")) {
     console.log("Card in Wild Modal Clicked", e.target.classList[1]);
@@ -555,7 +653,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-//Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile, if first discard is wild or plus4 choose a random color to start
+//Game Setup -- shuffle deck, shuffle cpu names and pick 3, put 7 cards in each player's hand array, deal 1 card to discard pile, if first discard is wild or plus4 choose a random color to start, user starts their turn
 //Shuffle Deck
 deck.shuffle();
 //Shuffle cpuNames array and pick the last 3
