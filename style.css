@@ -17,6 +17,9 @@ body {
   position: relative;
   box-shadow: 5px 5px 5px rgb(54, 39, 29);
 }
+.active {
+  box-shadow: 5px 5px 5px rgb(190, 190, 190);
+}
 .cardFaceUp img {
   position: absolute;
 }
@@ -87,6 +90,7 @@ body {
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   box-shadow: 5px 5px 5px rgb(54, 39, 29);
+  transition: 200ms ease-in-out;
 }
 .cpuCardBox .nickname {
   /* width: 200%; */

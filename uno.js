@@ -246,6 +246,9 @@ const user = {
   isTakingTurn: true,
   startTurn: function () {
     console.log("User starting turn");
+    this.cardBoxElement.childNodes.forEach((card) => {
+      card.classList.add("active");
+    });
   },
 };
 const cpu1 = {
@@ -257,10 +260,14 @@ const cpu1 = {
   isTakingTurn: false,
   startTurn: function () {
     console.log("Cpu1 starting turn");
+    this.countElement.style.backgroundColor = "white";
+    this.countElement.style.color = "black";
     setTimeout(() => {
       console.log("Cpu1 picking a card");
       let cardPicked = this.hand[0];
       console.log("I pick", cardPicked);
+      this.countElement.style.backgroundColor = "black";
+      this.countElement.style.color = "white";
       discard.movePlayControl();
     }, 1000);
   },
@@ -274,10 +281,14 @@ const cpu2 = {
   isTakingTurn: false,
   startTurn: function () {
     console.log("Cpu2 starting turn");
+    this.countElement.style.backgroundColor = "white";
+    this.countElement.style.color = "black";
     setTimeout(() => {
       console.log("Cpu2 picking a card");
       let cardPicked = this.hand[0];
       console.log("I pick", cardPicked);
+      this.countElement.style.backgroundColor = "black";
+      this.countElement.style.color = "white";
       discard.movePlayControl();
     }, 1000);
   },
@@ -291,10 +302,14 @@ const cpu3 = {
   isTakingTurn: false,
   startTurn: function () {
     console.log("Cpu3 starting turn");
+    this.countElement.style.backgroundColor = "white";
+    this.countElement.style.color = "black";
     setTimeout(() => {
       console.log("Cpu3 picking a card");
       let cardPicked = this.hand[0];
       console.log("I pick", cardPicked);
+      this.countElement.style.backgroundColor = "black";
+      this.countElement.style.color = "white";
       discard.movePlayControl();
     }, 1000);
   },
@@ -379,6 +394,9 @@ document.addEventListener("click", (e) => {
     console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
     discard.processTopCard();
+    user.cardBoxElement.childNodes.forEach((card) => {
+      card.classList.remove("active");
+    });
     discard.movePlayControl();
   }
 });
@@ -435,6 +453,7 @@ document.addEventListener("click", (e) => {
     user.hand.push(newCardObj);
     console.log("New card object", newCardObj);
     let newCard = createCardFaceUp(newCardObj);
+    newCard.classList.add("active");
     user.cardBoxElement.appendChild(newCard);
   }
 });
@@ -477,3 +496,4 @@ if (discard.cards[0].number == "plus4") {
   );
   currentTopCardOvalElement.className = `oval ${discard.cards[0].color}`;
 }
+user.startTurn();
