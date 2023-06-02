@@ -19,6 +19,7 @@ body {
 }
 .active {
   box-shadow: 5px 5px 5px rgb(190, 190, 190);
+  transform: translateY(-10%);
 }
 .cardFaceUp img {
   position: absolute;
@@ -66,6 +67,7 @@ body {
   /* border: 1px solid black; */
   width: 200px;
   padding-right: 40px;
+  transition: 200ms ease-in-out;
 }
 #cpu1 {
   top: 45%;

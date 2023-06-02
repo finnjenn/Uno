@@ -421,11 +421,13 @@ const cpu1 = {
     console.log("Cpu1 starting turn");
     this.countElement.style.backgroundColor = "white";
     this.countElement.style.color = "black";
+    this.cardBoxElement.style.transform = "translateY(-10%)";
     setTimeout(() => {
       let cardPicked = this.pickCard();
       console.log("I pick", cardPicked);
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
+      this.cardBoxElement.style.transform = "translate(0)";
       discard.movePlayControl();
     }, TIME_CPUS_WAIT_FOR_TURN);
   },
@@ -469,12 +471,14 @@ const cpu2 = {
     console.log("Cpu2 starting turn");
     this.countElement.style.backgroundColor = "white";
     this.countElement.style.color = "black";
+    this.cardBoxElement.style.transform = "translateY(-10%)";
     setTimeout(() => {
       console.log("Cpu2 picking a card");
       let cardPicked = this.pickCard();
       console.log("I pick", cardPicked);
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
+      this.cardBoxElement.style.transform = "translate(0)";
       discard.movePlayControl();
     }, TIME_CPUS_WAIT_FOR_TURN);
   },
@@ -518,12 +522,14 @@ const cpu3 = {
     console.log("Cpu3 starting turn");
     this.countElement.style.backgroundColor = "white";
     this.countElement.style.color = "black";
+    this.cardBoxElement.style.transform = "translateY(-10%)";
     setTimeout(() => {
       console.log("Cpu3 picking a card");
       let cardPicked = this.pickCard();
       console.log("I pick", cardPicked);
       this.countElement.style.backgroundColor = "black";
       this.countElement.style.color = "white";
+      this.cardBoxElement.style.transform = "translate(0)";
       discard.movePlayControl();
     }, TIME_CPUS_WAIT_FOR_TURN);
   },
