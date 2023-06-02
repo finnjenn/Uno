@@ -400,6 +400,7 @@ const cpu1 = {
   hand: [],
   isTakingTurn: false,
   drawCard: function () {
+    if (deck.cards.length == 0) emptyDiscardIntoDeck();
     this.hand.push(deck.removeCard());
     console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
     updateCpuCardCount();
@@ -450,6 +451,7 @@ const cpu2 = {
   hand: [],
   isTakingTurn: false,
   drawCard: function () {
+    if (deck.cards.length == 0) emptyDiscardIntoDeck();
     this.hand.push(deck.removeCard());
     console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
     updateCpuCardCount();
@@ -501,6 +503,7 @@ const cpu3 = {
   hand: [],
   isTakingTurn: false,
   drawCard: function () {
+    if (deck.cards.length == 0) emptyDiscardIntoDeck();
     this.hand.push(deck.removeCard());
     console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
     updateCpuCardCount();
@@ -656,6 +659,13 @@ const updateCpuCardCount = function () {
   if (cpu3.hand.length == 1) cpu3.countElement.innerText = "UNO";
   else cpu3.countElement.innerText = cpu3.hand.length;
 };
+const emptyDiscardIntoDeck = function () {
+  console.log("Deck is out of cards. Emptying discard cards into deck.");
+  let discardTop = discard.pop();
+  deck.cards = discard.cards;
+  deck.cards.shuffle();
+  discard.cards = { discardTop };
+};
 // Event listener for when card in wild color selection modal is clicked
 // Changes how the wild card visually looks based on which color user picks
 // If a regular wild was played, the background color changes to match user color selection
@@ -692,6 +702,7 @@ document.addEventListener("click", (e) => {
     e.target.matches("#deck .cardFaceDown") ||
     e.target.matches("#deck .cardFaceDown .oval")
   ) {
+    if (deck.cards.length == 0) emptyDiscardIntoDeck();
     console.log("Draw pile clicked. Drawing card for user.");
     let newCardObj = deck.cards.pop();
     user.hand.push(newCardObj);
