@@ -1,6 +1,7 @@
 const NUM_OF_STARTING_CARDS = 7;
 const TIME_CPUS_WAIT_FOR_TURN = 1500;
 const wildModal = new bootstrap.Modal("#wildModal");
+const gameOverModal = new bootstrap.Modal("#gameOverModal");
 let isCpuTurn = false;
 let isUserTurn = true;
 let isClockwise = true;
@@ -340,6 +341,7 @@ const discard = {
         this.cards[this.topCardIndex()].number == "plus4") &&
       user.isTakingTurn
     ) {
+      if (user.hand.length == 0) return;
       console.log("Wild played. Showing modal.");
       isModalShowing = true;
       console.log("isModalShowing:", isModalShowing);
@@ -348,6 +350,14 @@ const discard = {
   },
   // Called when player has picked their card and control of play needs to move to another player
   movePlayControl: function () {
+    // Exit function if a player has used up all their cards
+    if (
+      user.hand.length == 0 ||
+      cpu1.hand.length == 0 ||
+      cpu2.hand.length == 0 ||
+      cpu3.hand.length == 0
+    )
+      return;
     // Exit function if modal is showing. Modal will call this function again once it closes
     if (isModalShowing) {
       console.log("Modal is showing. Exiting movePlayControl.");
@@ -615,6 +625,11 @@ document.addEventListener("click", (e) => {
     console.log("Cards in discard", discard.cards);
     discard.updateTopCard();
     discard.processTopCard();
+    if (user.hand.length == 0) {
+      let modalTextElement = document.querySelector("#gameOverModal h1");
+      modalTextElement.innerText = "You Won! Congratulations";
+      gameOverModal.show();
+    }
     // Removes visual indication that it is user's turn
     user.cardBoxElement.childNodes.forEach((card) => {
       card.classList.remove("active");
@@ -629,6 +644,11 @@ const takingTurn = function () {
   if (cpu3.isTakingTurn) return cpu3;
 };
 const updateCpuCardCount = function () {
+  if (cpu1.hand.length == 0 || cpu2.hand.length == 0 || cpu3.hand.length == 0) {
+    let modalTextElement = document.querySelector("#gameOverModal h1");
+    modalTextElement.innerText = "Game Over. You Lose";
+    gameOverModal.show();
+  }
   if (cpu1.hand.length == 1) cpu1.countElement.innerText = "UNO";
   else cpu1.countElement.innerText = cpu1.hand.length;
   if (cpu2.hand.length == 1) cpu2.countElement.innerText = "UNO";

@@ -132,6 +132,14 @@ body {
 #wildCardBox .cardFaceUp:hover {
   transform: scale(1.1);
 }
+#gameOverModal button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  margin-left: 35%;
+}
 .red {
   background-color: #d72600;
 }
