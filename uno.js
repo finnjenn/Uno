@@ -714,7 +714,24 @@ document.addEventListener("click", (e) => {
     user.cardBoxElement.childNodes.forEach((card) => {
       card.classList.remove("active");
     });
-    discard.movePlayControl();
+    if (
+      newCardObj.color == discard.cards[discard.topCardIndex()].color ||
+      newCardObj.number == discard.cards[discard.topCardIndex()].number ||
+      newCardObj.color == "black"
+    ) {
+      setTimeout(() => {
+        console.log(
+          "Drawn card:",
+          newCardObj,
+          "matches the discard. Playing drawn card."
+        );
+        user.cardBoxElement.removeChild(newCard);
+        discard.cards.push(user.hand.pop());
+        discard.updateTopCard();
+        discard.processTopCard();
+        discard.movePlayControl();
+      }, 1000);
+    } else discard.movePlayControl();
   }
 });
 
