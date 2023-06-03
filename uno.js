@@ -1,5 +1,5 @@
 const NUM_OF_STARTING_CARDS = 7;
-const TIME_CPUS_WAIT_FOR_TURN = 1500;
+const TIME_CPUS_WAIT_FOR_TURN = 2000;
 const wildModal = new bootstrap.Modal("#wildModal");
 const gameOverModal = new bootstrap.Modal("#gameOverModal");
 let isCpuTurn = false;
