@@ -210,6 +210,7 @@ const discard = {
       currentTopCardOval.className = "oval white";
     }
     currentTopCardImg = document.querySelector("#discard .cardFaceUp img");
+    //Picture for wild card is too large. This fixes it.
     if (newTopCard.number == "wild") {
       currentTopCardImg.setAttribute("width", "40px");
     }
