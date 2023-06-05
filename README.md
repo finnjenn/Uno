@@ -37,6 +37,8 @@ With my UNO remake, all you need is a device with a big, wide screen (like an iP
 <h2 id="whatILearned">What I Learned</h2>
 
 - JavaScript One-Liners: Before starting this project, I was reading an article from freeCodeCamp about small pieces of code that are so common you might use them in every project. These <a href="https://www.freecodecamp.org/news/javascript-one-liners-to-use-in-every-project/">one-liners</a> were so useful I ended up using a few.
+- Improvement 1: A lot of code is repeated. Now that I am aware of what simple functions are used over and over I will be able to group them together when I rebuild this project in the future with a framework.
+  Improvement 2: To go along with Imrpovement 1, I should have used a 'computer player' class instead of creating 3 unique but similar computer objects. In the beginning, I did not think that the individual cpu objects would have much functionality so I decided to create them on their own. As the project grew, I added more functions that were essentially the same to each cpu object. The code still runs fast because this project is small but it is definitely hard to read and hard to maintain.
 
 <h2 id="usage">Usage</h2>
 
