@@ -20,10 +20,10 @@ Growing up, my sister and I would UNO one-on-one for hours until one of us was t
   (Top of discard pile is a Red 1. You can play any red card or any card with the number 1)
 - Black cards are wild cards. They can be played regardless of what is on top of the discard pile. Once played, you will get to choose the new color of the discard pile.
 - If you do not have any cards that match the top of the discard pile, you can draw one card from the deck. If the card you drew is playable you can put it down but if it is not, your turn is over.
-- +2 and +4 cards cannot be stacked. When one is played, the next player draws and continues their turn.
+- +2 and +4 cards cannot be stacked. When one is played, the next player is given their extra cards and continues their turn.
 - First player to have 0 cards wins!
 
-With my UNO remake, all you need is a device with a big, wide screen (like an iPad or laptop). The cards and people to play the game come ready when you launch my URL. You will be matched against three random opponents (friends of mine who are on-call 24/7). The first one to get rid of all their cards wins!
+With my UNO remake, all you need is a device with a big, wide screen (like an iPad or laptop). The cards and people to play the game come ready when you launch my URL. You will be matched against three random opponents (friends of mine who are on-call 24/7). Good luck!
 
 <h2 id="features">Features</h2>
 
@@ -38,8 +38,21 @@ With my UNO remake, all you need is a device with a big, wide screen (like an iP
 
 <h2 id="usage">Usage</h2>
 
-You (the user) get to go first at the start of every new game.
+You (the user) get to go first at the start of every new game. Either click a card in your hand to play it or click the deck in the middle to draw a card. Your hand is highlighted and slightly rasises itself when it is back to your turn.
 
 <h2 id="contributing">Contributing</h2>
 
+Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
+
+- Fork the repository.
+- Create a new branch for your feature or bug fix.
+- Make your changes and commit them.
+- Push your changes to your forked repository.
+- Submit a pull request detailing your changes.
+
 <h2 id="contactMe">Contact Me</h2>
+
+For any questions, suggestions, or feedback, please feel free to contact me:
+
+- Github: <a href="github.com/finnjenn">finnjenn</a>
+- Email: <a href="mailto:finnjennings00@gmail.com">finnjennings00@gmail.com</a>
