@@ -40,6 +40,8 @@ With my UNO remake, all you need is a device with a big, wide screen (like an iP
 
 <h2 id="usage">Usage</h2>
 
+Simply clone the project and open using the index.html file or open the live site with <a href="https://finnjenn.github.io/knowYourTypeV2/">Github Pages</a>
+
 You (the user) get to go first at the start of every new game. Either click a card in your hand to play it or click the deck in the middle to draw a card. Your hand is highlighted and slightly rasises itself when it is back to your turn.
 
 <h2 id="contributing">Contributing</h2>
