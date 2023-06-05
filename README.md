@@ -5,7 +5,7 @@ A re-make of the famous UNO card game.
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Features](#features)
+<!-- - [Features](#features) -->
 - [Technologies Used](#technologiesUsed)
 - [What I Learned](#whatILearned)
 - [Usage](#usage)
@@ -25,7 +25,7 @@ Growing up, my sister and I would play UNO one-on-one for hours until one of us 
 
 With my UNO remake, all you need is a device with a big, wide screen (like an iPad or laptop). The cards and people to play the game come ready when you launch my URL. You will be matched against three random opponents (friends of mine who are on-call 24/7). Good luck!
 
-<h2 id="features">Features</h2>
+<!-- <h2 id="features">Features</h2> -->
 
 <h2 id="technologiesUsed">Technologies Used</h2>
 
