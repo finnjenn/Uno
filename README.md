@@ -46,6 +46,8 @@ Simply clone the project and open using the index.html file or open the live sit
 
 You (the user) get to go first at the start of every new game. Either click a card in your hand to play it or click the deck in the middle to draw a card. Your hand is highlighted and slightly rasises itself when it is back to your turn.
 
+The number under the cpu hand is the current number of cards they have. If they have 1 card left, it will say UNO
+
 <img src='screenshot.png' style='width:450px;'>
 
 <h2 id="contributing">Contributing</h2>
