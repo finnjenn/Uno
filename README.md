@@ -36,6 +36,7 @@ With my UNO remake, all you need is a device with a big, wide screen (like an iP
 
 <h2 id="whatILearned">What I Learned</h2>
 
+- Event-Listeners: These are super versatile and allowed me to change the effect based on what exact item the user clicked on. It was a bit of a learning process and I still don't feel completely confident in them. But it is a step up from where I was; only using the onclick html attribute to trigger some JS function.
 - JavaScript One-Liners: Before starting this project, I was reading an article from freeCodeCamp about small pieces of code that are so common you might use them in every project. These <a href="https://www.freecodecamp.org/news/javascript-one-liners-to-use-in-every-project/">one-liners</a> were so useful I ended up using a few.
 - Bootsrap Modals: My familiarity with Bootstrap modals is growing just as the HTML dialog element is getting full browser support. I've loved using modals as it provides a quick way to show the user information and to visually show that the game in the background has stopped until the user finishes interacting with the modals. My love for modals will remain but I believe it is time to get familiar with the HTML dialog element. It seems to be extremely powerful and customizable.
 - Improvement 1: A lot of code is repeated. Now that I am aware of what simple functions are used over and over I will be able to group them together when I rebuild this project in the future with a framework.
