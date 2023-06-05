@@ -46,6 +46,8 @@ Simply clone the project and open using the index.html file or open the live sit
 
 You (the user) get to go first at the start of every new game. Either click a card in your hand to play it or click the deck in the middle to draw a card. Your hand is highlighted and slightly rasises itself when it is back to your turn.
 
+<img src='screenshot.png' style='width:350px; margin: 0 auto;'>
+
 <h2 id="contributing">Contributing</h2>
 
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
