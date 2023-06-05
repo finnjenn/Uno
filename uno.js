@@ -400,7 +400,7 @@ const cpu1 = {
   hand: [],
   isTakingTurn: false,
   drawCard: function () {
-    if (deck.cards.isEmpty()) emptyDiscardIntoDeck();
+    if (deck.isEmpty()) emptyDiscardIntoDeck();
     this.hand.push(deck.removeCard());
     console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
     updateCpuCardCount();
@@ -451,7 +451,7 @@ const cpu2 = {
   hand: [],
   isTakingTurn: false,
   drawCard: function () {
-    if (deck.cards.isEmpty()) emptyDiscardIntoDeck();
+    if (deck.isEmpty()) emptyDiscardIntoDeck();
     this.hand.push(deck.removeCard());
     console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
     updateCpuCardCount();
@@ -503,7 +503,7 @@ const cpu3 = {
   hand: [],
   isTakingTurn: false,
   drawCard: function () {
-    if (deck.cards.isEmpty()) emptyDiscardIntoDeck();
+    if (deck.isEmpty()) emptyDiscardIntoDeck();
     this.hand.push(deck.removeCard());
     console.log("Card Drawn by CPU:", this.hand[this.hand.length - 1]);
     updateCpuCardCount();
@@ -702,7 +702,7 @@ document.addEventListener("click", (e) => {
     e.target.matches("#deck .cardFaceDown") ||
     e.target.matches("#deck .cardFaceDown .oval")
   ) {
-    if (deck.cards.isEmpty()) emptyDiscardIntoDeck();
+    if (deck.isEmpty()) emptyDiscardIntoDeck();
     console.log("Draw pile clicked. Drawing card for user.");
     let newCardObj = deck.cards.pop();
     user.hand.push(newCardObj);
