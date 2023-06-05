@@ -14,7 +14,7 @@ A re-make of the famous UNO card game.
 
 <h2 id="introduction">Introduction</h2>
 
-Growing up, my sister and I would UNO one-on-one for hours until one of us was too ticked-off to continue. The game is usually most fun with at least 3 players because cards like reverse and skip don't work exactly the same with 2 players. Everyone has their own 'house rules' for the game but I tried to stick as close to the rulebook as I could. UNO rules are simple.
+Growing up, my sister and I would play UNO one-on-one for hours until one of us was too ticked-off to continue. The game is usually most fun with at least 3 players because cards like reverse and skip don't work exactly the same with 2 players. Everyone has their own 'house rules' for the game but I tried to stick as close to the rulebook as I could. UNO rules are simple.
 
 - You can get rid of a card on your turn if it matches either the color or the number of the card on top of the discard pile.
   (Top of discard pile is a Red 1. You can play any red card or any card with the number 1)
@@ -36,6 +36,8 @@ With my UNO remake, all you need is a device with a big, wide screen (like an iP
 
 <h2 id="whatILearned">What I Learned</h2>
 
+- JavaScript One-Liners: Before starting this project, I was reading an article from freeCodeCamp about small pieces of code that are so common you might use them in every project. These <a href="https://www.freecodecamp.org/news/javascript-one-liners-to-use-in-every-project/">one-liners</a> were so useful I ended up using a few.
+
 <h2 id="usage">Usage</h2>
 
 You (the user) get to go first at the start of every new game. Either click a card in your hand to play it or click the deck in the middle to draw a card. Your hand is highlighted and slightly rasises itself when it is back to your turn.
@@ -54,5 +56,5 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 
 For any questions, suggestions, or feedback, please feel free to contact me:
 
-- Github: <a href="github.com/finnjenn">finnjenn</a>
+- Github: <a href="https://github.com/finnjenn">finnjenn</a>
 - Email: <a href="mailto:finnjennings00@gmail.com">finnjennings00@gmail.com</a>
