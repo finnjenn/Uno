@@ -140,6 +140,10 @@ body {
   padding: 1rem 2rem;
   margin-left: 35%;
 }
+#userCardBox .cardFaceUp,
+#deck {
+  cursor: pointer;
+}
 .red {
   background-color: #d72600;
 }
